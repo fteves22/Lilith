@@ -1,13 +1,13 @@
 class InitTracker:
-    trackerInfo = []
-
-    currentPlayer = 0
-    rounds = 0
-
-    last_message = 0
 
     def __init__(self):
         super().__init__()
+        self.trackerInfo = []
+
+        self.currentPlayer = 0
+        self.rounds = 0
+
+        self.last_message = 0
 
     def printTracker(self):
         ''' Prints the current initiative tracker information.
