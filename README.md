@@ -9,7 +9,7 @@ Lilith is a Discord bot designed to make Dungeons &amp; Dragons easier to play a
 `!join [name] [i]`: Adds a combatant as `name` to the combat order with `i` for their initiative roll.  
 `!delete [name]`: Deletes the combatant `name` if they exist in the combat order.  
 `!begin`: Begins combat, and tags the first player in combat.  
-`!next`: Moves onto the next player in combat.
+`!next`: Moves onto the next player in combat.  
 `!previous`: Moves back to the previous player in combat.  
 `!end`: Ends combat, and clears the tracker of all player information.  
   

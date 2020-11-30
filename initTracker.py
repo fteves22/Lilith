@@ -4,6 +4,8 @@ class InitTracker:
     currentPlayer = 0
     rounds = 0
 
+    last_message = 0
+
     def __init__(self):
         super().__init__()
 
@@ -34,7 +36,10 @@ class InitTracker:
 
             toPrint = toPrint + "\n-----------------------------------"
 
-            return toPrint
+            if self.rounds == 0:
+                return toPrint
+            else:
+                return toPrint + "\n" + self.trackerInfo[self.currentPlayer][0].mention + ", it's your turn!"
     
     def join(self, username, name, initiative):
         ''' Adds new combatant's information into trackerInfo.
@@ -61,6 +66,21 @@ class InitTracker:
             self.trackerInfo.append([username, name, initiative])
 
             return "Combatant successfully joined!"
+
+    def kill(self, name):
+        ''' Deletes combatant with name if they exist in trackerInfo.
+            Inputs: name - name of combatant to be deleted
+            Outputs: string indicating error or success '''
+
+        count = 0
+        for data in self.trackerInfo:
+            if name == data[1]:
+                self.trackerInfo.pop(count)
+                return f"{name} has successfully been deleted from the initiative tracker."
+            else:
+                count = count + 1
+        return f"{name} does not exist."
+
     
     def begin(self):
         ''' Begins initiative and prints current initiative order.
@@ -103,7 +123,10 @@ class InitTracker:
         else:
             self.currentPlayer = self.currentPlayer + 1
 
-        return self.printTracker()
+        if self.currentPlayer == 0:
+            return self.printTracker()
+        else:
+            return self.trackerInfo[self.currentPlayer][0].mention + ", it's your turn!"
     
     def prev(self):
         ''' Moves to the previous combatant in initiative.
@@ -122,7 +145,7 @@ class InitTracker:
         else:
             self.currentPlayer = self.currentPlayer - 1
 
-        return self.printTracker()
+        return self.trackerInfo[self.currentPlayer][0].mention + ", it's your turn!"
     
     def inc_round(self):
         ''' Increments round.
