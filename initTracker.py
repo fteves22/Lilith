@@ -65,7 +65,7 @@ class InitTracker:
             # Add all relevant information to the array.
             self.trackerInfo.append([username, name, initiative])
 
-            return "Combatant successfully joined!"
+            return name + " successfully joined!"
 
     def kill(self, name):
         ''' Deletes combatant with name if they exist in trackerInfo.

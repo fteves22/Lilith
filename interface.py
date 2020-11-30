@@ -6,7 +6,7 @@ import re
 
 from initTracker import *
 
-TOKEN = "NzgyNjk3MDY1NjE2NjM3OTcy.X8P9cg.znBhFedIwU2MaUQRVA85e83Cmy0"
+TOKEN = ""
 client = discord.Client()
 
 description = '''Lilith is a Discord bot designed to make Dungeons & Dragons easier to play and manage.'''
@@ -19,6 +19,17 @@ bot = commands.Bot(command_prefix='!', description=description)
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
+
+@bot.command()
+async def clean(ctx):    
+    def is_bot(m):
+        return m.author == bot.user
+
+    def is_command(m):
+        return m.content[0] == bot.command_prefix
+
+    await ctx.channel.purge(check = is_command)
+    await ctx.channel.purge(check = is_bot)
 
 # ----------------------------------------------------------------------------------------------------
 #                                       INITIATIVE TRACKING
@@ -127,12 +138,6 @@ async def on_reaction_add(reaction, user):
 
     current = tracker.trackerInfo[tracker.currentPlayer][0]
 
-    print(tracker.last_message)
-    print(message.id)
-
-    if user.bot:
-        return
-    
     if user == current and tracker.last_message == message_id:
         if emoji == "⏮️":
             await prev(channel)
