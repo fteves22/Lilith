@@ -7,7 +7,7 @@ import re
 from initTracker import *
 from prefixes import *
 
-TOKEN = "NzgyNjk3MDY1NjE2NjM3OTcy.X8P9cg.PQXJoSU_0jedi8xoxsF2zcyc0AQ"
+TOKEN = ""
 client = discord.Client()
 
 description = '''Lilith is a Discord bot designed to make Dungeons & Dragons easier to play and manage.'''
