@@ -2,11 +2,10 @@ import csv
 import subprocess
 
 class Prefixes:
-    prefixInfo = []
 
     def __init__(self):
         super().__init__()
-        prefixInfo = self.csvHelper('prefixes.csv')
+        self.prefixInfo = self.csvHelper('prefixes.csv')
 
     def getPrefix(self, guild):
         for data in self.prefixInfo:
