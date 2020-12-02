@@ -15,6 +15,7 @@ class Prefixes:
         count = 0
         for data in self.prefixInfo:
             if data[0] == guild:
+                print("Found it!")
                 self.prefixInfo.pop(count)
                 self.prefixInfo.append([guild, prefix])
             else:
