@@ -7,20 +7,20 @@ class Prefixes:
 
     def getPrefix(self, guild):
         for data in self.prefixInfo:
-            if data[0] == hash(guild):
+            if data[0] == guild:
                 return data[1]
         return "!"
 
     def setPrefix(self, guild, prefix):
         count = 0
         for data in self.prefixInfo:
-            if data[0] == hash(guild):
+            if data[0] == guild:
                 self.prefixInfo.pop(count)
-                self.prefixInfo.append([hash(guild), prefix])
+                self.prefixInfo.append([guild, prefix])
             else:
                 count = count + 1
         
-        self.prefixInfo.append([hash(guild), prefix])
+        self.prefixInfo.append([guild, prefix])
         return prefix
 
     def showPrefixes(self):
