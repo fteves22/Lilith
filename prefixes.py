@@ -1,4 +1,5 @@
 import csv
+import subprocess
 
 class Prefixes:
     prefixInfo = []
@@ -48,7 +49,18 @@ class Prefixes:
 
         self.prefixInfo = self.csvHelper('prefixes.csv')
 
+        self.commit("Refresh prefixes.csv")
+
         return prefix
+
+    def commit(self, message):
+        commit_message = f'{message}'
+
+        run("commit", "-am", commit_message)
+        run("push", "-u", "origin", "master")
+
+    def showPrefixes(self):
+        print(self.prefixInfo)
 
     # HELPER FUNCTION
     def csvHelper(self, filename):
@@ -62,6 +74,3 @@ class Prefixes:
             for row in reader:
                 lines.append(row)
         return lines
-
-    def showPrefixes(self):
-        print(self.prefixInfo)
