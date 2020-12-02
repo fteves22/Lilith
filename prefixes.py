@@ -1,8 +1,8 @@
 class Prefixes:
-    prefixInfo = []
 
     def __init__(self):
         super().__init__()
+        self.prefixInfo = [[545901826776760340, '%']]
 
     def getPrefix(self, guild):
         for data in self.prefixInfo:

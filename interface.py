@@ -7,7 +7,7 @@ import re
 from initTracker import *
 from prefixes import *
 
-TOKEN = ""
+TOKEN = "NzgyNjk3MDY1NjE2NjM3OTcy.X8P9cg.vi52fOuyitz2l7fxfwl3ApYZEHk"
 client = discord.Client()
 
 description = '''Lilith is a Discord bot designed to make Dungeons & Dragons easier to play and manage.'''
@@ -16,6 +16,7 @@ description = '''Lilith is a Discord bot designed to make Dungeons & Dragons eas
 #                                              PREFIX
 # ----------------------------------------------------------------------------------------------------
 
+# Create prefix object.
 p = Prefixes()
 
 def _prefix_callable(bot, msg):
@@ -25,25 +26,35 @@ def _prefix_callable(bot, msg):
     else:
         return p.getPrefix(guild)
 
-bot = commands.Bot(command_prefix=_prefix_callable, description=description)
+bot = commands.Bot(command_prefix=_prefix_callable, description=description, help_command = None)
 
 @bot.command()
-async def setPrefix(ctx, arg):
+async def setPrefix(ctx, arg = ''):
     guild = ctx.message.guild.id
     prefix = arg
 
-    if prefix == '':
-        return "Prefix required."
+    # Delete command message.
+    await ctx.message.delete()
 
-    await ctx.send("Prefix: `" + p.setPrefix(guild, prefix) + "`")
+    if arg == '':
+        await ctx.send("ERROR: Prefix required. Use `!setPrefix [p]` to set your server's prefix.")
+    else:
+        await ctx.send("Prefix: `" + p.setPrefix(guild, prefix) + "`")
 
 @bot.command()
 async def prefix(ctx):
     guild = ctx.message.guild.id
+    
+    # Delete command message.
+    await ctx.message.delete()
+
     await ctx.send("Prefix: `" + _prefix_callable(bot, ctx.message) + "`")
 
 @bot.command()
-async def showAll(ctx):
+async def showAllPrefixes(ctx):
+    # Delete command message.
+    await ctx.message.delete()
+    
     p.showPrefixes()
 
 # ----------------------------------------------------------------------------------------------------
@@ -55,11 +66,47 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 @bot.command()
+async def help(ctx, arg = ''):
+    p = _prefix_callable(bot, ctx.message)
+
+    helpMsg = "`!help`: Shows a list of common commands, and a link to a list of all commands."
+    prefixMsg = "`!prefix`: Shows current prefix."
+    setPrefixMsg = "`!setPrefix [p]`: Sets prefix to `p`."
+    cleanMsg = "`!clean`: Deletes all bot messages in a channel."
+
+    joinMsg = "`!join [name] [i]`: Adds a combatant as `name` to the combat order with `i` for their initiative roll."
+    killMsg = "`!kill [name]`: Deletes the combatant `name` if they exist in the combat order."
+    beginMsg = "`!begin`: Begins combat, and tags the first player in combat."
+    endMsg = "`!end`: Ends combat, and clears the tracker of all player information."
+    nextMsg = "`!next`: Moves onto the next player in combat."
+    prevMsg = "`!previous`: Moves back to the previous player in combat. (Alias: `!prev`)"
+    showMsg = "`!show`: Shows full combat order."
+
+    if arg == '':
+        msg = "**Commands**" + "\n" + helpMsg + "\n" + prefixMsg + "\n" + setPrefixMsg + "\n" + cleanMsg
+        msg = msg + "\n" + joinMsg + "\n" + killMsg + "\n" + beginMsg + "\n" + endMsg + "\n" + nextMsg + "\n" + prevMsg + "\n" + showMsg
+    elif arg == 'prefix' or arg == 'setPrefix':
+        msg = prefixMsg + "\n" + setPrefixMsg
+    elif arg == 'initiative' or arg == 'join' or arg == 'begin' or arg == 'show':
+        msg = joinMsg + "\n" + beginMsg + "\n" + showMsg
+    elif arg == 'stop' or arg == 'end' or arg == 'kill' or arg == 'delete':
+        msg = killMsg + "\n" + endMsg
+    elif arg == 'next' or arg == 'prev' or arg == 'previous':
+        msg = nextMsg + "\n" + prevMsg
+    else:
+        msg = "ERROR: `" + arg + "` doesn't exist. Use `!help` for complete list of commands."
+        
+    msg = msg + "\n\n" + "Prefix: `" + p + "`"
+    await ctx.send(msg)
+
+@bot.command()
 async def clean(ctx):    
     def is_bot(m):
         return m.author == bot.user
 
-    await ctx.channel.purge(limit = 1)
+    # Delete command message.
+    await ctx.message.delete()
+
     await ctx.channel.purge(check = is_bot)
 
 @bot.command()
@@ -82,7 +129,7 @@ async def join(ctx, *arg):
 
     # Missing parameters.
     if len(arg) < 2:
-        await ctx.send("To join initiative, the input must be in the form: `[name] [initiative roll]`.")
+        await ctx.send("ERROR: To join initiative, the input must be in the form: `[name] [initiative roll]`.")
     else:
         username = ctx.message.author
         name = " ".join(arg[:-1])
@@ -123,7 +170,7 @@ async def kill(ctx, *arg):
             break
     
     if not found:
-        await ctx.send("Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     msg = tracker.kill(name)
     await ctx.send(username.mention + " " + msg)
@@ -145,7 +192,7 @@ async def begin(ctx):
             break
     
     if not found:
-        await ctx.send("Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     result = tracker.begin()
     botMessage = await ctx.send(result)
@@ -172,7 +219,7 @@ async def end(ctx):
             break
     
     if not found:
-        await ctx.send("Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     result = tracker.end()
     await ctx.send(result)
@@ -197,7 +244,7 @@ async def next(ctx):
             break
     
     if not found:
-        await ctx.send("Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     result = tracker.next()
     botMessage = await ctx.send(result)
@@ -227,7 +274,7 @@ async def prev(ctx):
             break
     
     if not found:
-        await ctx.send("Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
         
     result = tracker.prev()
     botMessage = await ctx.send(result)
@@ -260,7 +307,7 @@ async def show(ctx):
             break
     
     if not found:
-        await ctx.send("Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
         return
 
     result = tracker.printTracker()
@@ -287,7 +334,7 @@ async def on_reaction_add(reaction, user):
             break
     
     if not found:
-        await channel.send("Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await channel.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     current = tracker.trackerInfo[tracker.currentPlayer][0]
 
