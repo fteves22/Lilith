@@ -3,11 +3,12 @@ import discord
 from discord.ext import commands
 import discord.ext
 import re
+import os
 
 from initTracker import *
 from prefixes import *
 
-TOKEN = "NzgyNjk3MDY1NjE2NjM3OTcy.X8P9cg.vi52fOuyitz2l7fxfwl3ApYZEHk"
+TOKEN = os.environ["TOKEN"]
 client = discord.Client()
 
 description = '''Lilith is a Discord bot designed to make Dungeons & Dragons easier to play and manage.'''
