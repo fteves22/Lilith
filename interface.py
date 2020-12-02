@@ -21,7 +21,7 @@ description = '''Lilith is a Discord bot designed to make Dungeons & Dragons eas
 p = Prefixes()
 
 def _prefix_callable(bot, msg):
-    guild = msg.guild.id
+    guild = msg.guild
     if p.prefixInfo == []:
         return "!"
     else:
@@ -31,7 +31,7 @@ bot = commands.Bot(command_prefix=_prefix_callable, description=description, hel
 
 @bot.command()
 async def setPrefix(ctx, arg = ''):
-    guild = ctx.message.guild.id
+    guild = ctx.message.guild
     prefix = arg
 
     # Delete command message.
@@ -43,9 +43,7 @@ async def setPrefix(ctx, arg = ''):
         await ctx.send("Prefix: `" + p.setPrefix(guild, prefix) + "`")
 
 @bot.command()
-async def prefix(ctx):
-    guild = ctx.message.guild.id
-    
+async def prefix(ctx):    
     # Delete command message.
     await ctx.message.delete()
 
