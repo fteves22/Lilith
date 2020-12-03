@@ -373,13 +373,50 @@ async def roll(ctx, *arg):
         res = diceRoll.roll(arg[0])
         output += res[0]
         total = res[1]
+    # Complex roll!
+    else:
+        output += "**Results:** "
+        is_subtract = False
+
+        for i in range(len(arg)):
+            # In the form [quantity]d[dice]
+            if "d" in arg[i]:
+                params = arg[i].split("d")
+                q = params[0]
+                d = params[1]
+
+                res = diceRoll.multiroll(q, d)
+                if res[1] != 0:
+                    output += res[0]
+
+                    if is_subtract:
+                        total -= res[1]
+                    else:
+                        total += res[1]
+                else:
+                    await ctx.send("Oops! Did you cast confusion? We couldn't parse your input!")
+                    return
+            elif arg[i] == "+":
+                output += " + "
+                is_subtract = False
+            elif arg[i] == "-":
+                output += " - "
+                is_subtract = True
+            # It's a modifier.
+            else:
+                try:
+                    res = int(arg[i])
+                except ValueError:
+                    await ctx.send("Oops! Did you cast confusion? We couldn't parse your input!")
+                    return
+                
+                output += arg[i]
+                
+                if is_subtract:
+                        total -= res[1]
+                else:
+                    total += res[1]
     
     await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
-
-@bot.command()
-async def r(ctx, *arg):
-    ''' Rolls dice. '''
-
-    await roll(ctx, )
 
 bot.run(TOKEN)
