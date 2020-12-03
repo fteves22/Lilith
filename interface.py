@@ -421,7 +421,7 @@ async def roll(ctx, *arg):
                     return
                 
                 if res < 0:
-                    output += " - " + arg[i]
+                    output += " - " + str(-res)
                 else:
                     output += arg[i]
                 
