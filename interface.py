@@ -362,6 +362,6 @@ async def roll(ctx, *arg):
     if arg == ('',):
         await ctx.send(diceRoll.roll())
     elif len(arg) == 1:
-        await ctx.send(diceRoll.roll(arg))
+        await ctx.send(diceRoll.roll(arg[0]))
 
 bot.run(TOKEN)
