@@ -313,8 +313,9 @@ async def show(ctx):
         await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
         return
     
-    await tracker.last_message.remove_reaction("⏮️", bot.user)
-    await tracker.last_message.remove_reaction("⏭️", bot.user)
+    if tracker.last_message != None:
+        await tracker.last_message.remove_reaction("⏮️", bot.user)
+        await tracker.last_message.remove_reaction("⏭️", bot.user)
 
     result = tracker.printTracker()
     botMessage = await ctx.send(result)
