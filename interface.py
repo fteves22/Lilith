@@ -359,7 +359,7 @@ async def roll(ctx, *arg):
 
     username = ctx.message.author
 
-    if arg == '':
+    if arg == ('',):
         await ctx.send(diceRoll.roll())
     elif len(arg) == 1:
         await ctx.send(diceRoll.roll(arg))
