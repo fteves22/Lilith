@@ -55,6 +55,9 @@ class Prefixes:
     def commit(self, message):
         commit_message = f'{message}'
 
+        def run(*args):
+            return subprocess.check_call(['git'] + list(args))
+
         run("commit", "-am", commit_message)
         run("push", "-u", "origin", "master")
 
