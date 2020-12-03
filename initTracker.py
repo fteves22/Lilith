@@ -7,7 +7,7 @@ class InitTracker:
         self.currentPlayer = 0
         self.rounds = 0
 
-        self.last_message = 0
+        self.last_message = None
 
     def printTracker(self):
         ''' Prints the current initiative tracker information.

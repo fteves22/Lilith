@@ -196,7 +196,7 @@ async def begin(ctx):
 
     result = tracker.begin()
     botMessage = await ctx.send(result)
-    tracker.last_message = botMessage.id
+    tracker.last_message = botMessage
 
     if tracker.rounds != 0:
         await botMessage.add_reaction("⏮️")
@@ -248,7 +248,7 @@ async def next(ctx):
 
     result = tracker.next()
     botMessage = await ctx.send(result)
-    tracker.last_message = botMessage.id
+    tracker.last_message = botMessage
 
     if tracker.rounds != 0:
         await botMessage.add_reaction("⏮️")
@@ -278,7 +278,7 @@ async def prev(ctx):
         
     result = tracker.prev()
     botMessage = await ctx.send(result)
-    tracker.last_message = botMessage.id
+    tracker.last_message = botMessage
 
     if tracker.rounds != 0:
         await botMessage.add_reaction("⏮️")
@@ -312,7 +312,7 @@ async def show(ctx):
 
     result = tracker.printTracker()
     botMessage = await ctx.send(result)
-    tracker.last_message = botMessage.id
+    tracker.last_message = botMessage
 
     if tracker.rounds != 0:
         await botMessage.add_reaction("⏮️")
@@ -338,7 +338,7 @@ async def on_reaction_add(reaction, user):
 
     current = tracker.trackerInfo[tracker.currentPlayer][0]
 
-    if user == current and tracker.last_message == message_id:
+    if user == current and tracker.last_message.id == message_id:
         await tracker.last_message.remove_reaction("⏮️", bot.user)
         await tracker.last_message.remove_reaction("⏭️", bot.user)
 
@@ -356,7 +356,6 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
-    print(arg)
     
     # Delete command message.
     await ctx.message.delete()
@@ -380,7 +379,6 @@ async def roll(ctx, *arg):
 @bot.command()
 async def r(ctx, *arg):
     ''' Rolls dice. '''
-    print(arg)
 
     await roll(ctx, )
 
