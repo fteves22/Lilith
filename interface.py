@@ -7,6 +7,7 @@ import os
 
 from initTracker import *
 from prefixes import *
+import diceRoll
 
 TOKEN = os.environ["TOKEN"]
 client = discord.Client()
@@ -345,5 +346,22 @@ async def on_reaction_add(reaction, user):
         else:
             return
 
+# ----------------------------------------------------------------------------------------------------
+#                                              ROLLING
+# ----------------------------------------------------------------------------------------------------
+
+@bot.command()
+async def roll(ctx, *arg):
+    ''' Rolls dice. '''
+    
+    # Delete command message.
+    await ctx.message.delete()
+
+    username = ctx.message.author
+
+    if arg == '':
+        await ctx.send(diceRoll.roll())
+    elif len(arg) == 1:
+        await ctx.send(diceRoll.roll(arg))
 
 bot.run(TOKEN)
