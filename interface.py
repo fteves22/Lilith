@@ -353,6 +353,7 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
+    print(arg)
     
     # Delete command message.
     await ctx.message.delete()
@@ -374,10 +375,10 @@ async def roll(ctx, *arg):
     await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
 @bot.command()
-async def r(ctx, args = ''):
+async def r(ctx, *arg):
     ''' Rolls dice. '''
-    print(args)
+    print(arg)
 
-    await roll(ctx, str(args))
+    await roll(ctx, str(arg))
 
 bot.run(TOKEN)
