@@ -71,6 +71,9 @@ def fudgeMod(mod, fudge):
     except ValueError:
         return ["Oops! Did you cast confusion? We couldn't parse your input!", True]
     
+    print(mod)
+    print(fudge)
+    
     if fudge >= 20 + mod:
         fudge = 20 + mod
         output += "(**20**)"
@@ -88,6 +91,8 @@ def fudgeMod(mod, fudge):
 def fudge(fudge: int = 20):
     output = ""
 
+    print(fudge)
+
     try:
         fudge = int(fudge)
     except ValueError:
@@ -98,6 +103,6 @@ def fudge(fudge: int = 20):
     elif fudge < 1:
         output += "(1)"
     else:
-        output += "(" + fudge + ")"
+        output += "(" + str(fudge) + ")"
     
     return [output, False]

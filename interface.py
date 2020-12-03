@@ -426,6 +426,9 @@ async def roll(ctx, *arg):
 async def froll(ctx, *arg):
     ''' Fudges a 1d20 roll. '''
 
+    # Delete command message.
+    await ctx.message.delete()
+
     username = ctx.message.author
     output = "**Result:** 1d20 "
     totalMsg = "\n**Total:** "
