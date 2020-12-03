@@ -417,9 +417,9 @@ async def roll(ctx, *arg):
                 output += arg[i]
                 
                 if is_subtract:
-                        total -= res[1]
+                        total -= res
                 else:
-                    total += res[1]
+                    total += res
     
     await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
