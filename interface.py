@@ -220,6 +220,9 @@ async def end(ctx):
     
     if not found:
         await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+    
+    await tracker.last_message.remove_reaction("⏮️", bot.user)
+    await tracker.last_message.remove_reaction("⏭️", bot.user)
 
     result = tracker.end()
     await ctx.send(result)
@@ -356,6 +359,7 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
+    print(arg)
     
     # Delete command message.
     await ctx.message.delete()
