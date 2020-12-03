@@ -1,5 +1,4 @@
 import csv
-import subprocess
 
 class Prefixes:
 
@@ -48,18 +47,7 @@ class Prefixes:
 
         self.prefixInfo = self.csvHelper('prefixes.csv')
 
-        self.commit("Refresh prefixes.csv")
-
         return prefix
-
-    def commit(self, message):
-        commit_message = f'{message}'
-
-        def run(*args):
-            return subprocess.check_call(['git'] + list(args))
-
-        run("commit", "-am", commit_message)
-        run("push", "-u", "origin", "master")
 
     def showPrefixes(self):
         print(self.prefixInfo)
