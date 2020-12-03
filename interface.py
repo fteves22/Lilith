@@ -373,7 +373,7 @@ async def roll(ctx, *arg):
         res = diceRoll.roll()
         output += res[0]
         total = res[1]
-    elif len(arg) == 1:
+    elif len(arg) == 1 and "d" not in arg[0]:
         res = diceRoll.roll(arg[0])
         output += res[0]
         total = res[1]
