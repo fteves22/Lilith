@@ -67,7 +67,7 @@ def fudgeMod(mod, fudge):
 
     try:
         mod = int(mod)
-        fudge = int(mod)
+        fudge = int(fudge)
     except ValueError:
         return ["Oops! Did you cast confusion? We couldn't parse your input!", True]
     
@@ -82,9 +82,9 @@ def fudgeMod(mod, fudge):
         output += "(1)"
     else:
         roll = fudge - mod
-        output += "(" + roll + ") + " + str(mod)
+        output += "(" + roll + ")"
 
-    output += "+" + str(mod)
+    output += " + " + str(mod)
 
     return [output, False]
 
