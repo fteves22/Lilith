@@ -441,7 +441,7 @@ async def froll(ctx, *arg):
     output = "**Result:** 1d20 "
     totalMsg = "\n**Total:** "
 
-    if "+" in arg[0] or "-" in arg[0] and len(arg) == 2:
+    if len(arg) == 2:
         res = diceRoll.fudgeMod(arg[0], arg[1])
         if res[2] == True:
             await ctx.send(res[0])
