@@ -62,4 +62,42 @@ def multiroll(q: int = 1, d: int = 20):
         
         return [output, total]
 
+def fudgeMod(mod, fudge):
+    output = ""
 
+    try:
+        mod = int(mod)
+        fudge = int(mod)
+    except ValueError:
+        return ["Oops! Did you cast confusion? We couldn't parse your input!", True]
+    
+    if fudge >= 20 + mod:
+        fudge = 20 + mod
+        output += "(**20**)"
+    elif fudge < 1 + mod:
+        fudge = 1 + mod
+        output += "(1)"
+    else:
+        roll = fudge - mod
+        output += "(" + roll + ") + " + str(mod)
+
+    output += "+" + str(mod)
+
+    return [output, False]
+
+def fudge(fudge: int = 20):
+    output = ""
+
+    try:
+        fudge = int(fudge)
+    except ValueError:
+        return ["Oops! Did you cast confusion? We couldn't parse your input!", True]
+    
+    if fudge >= 20:
+        output += "(**20**)"
+    elif fudge < 1:
+        output += "(1)"
+    else:
+        output += "(" + fudge + ")"
+    
+    return [output, False]
