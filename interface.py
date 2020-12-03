@@ -420,7 +420,10 @@ async def roll(ctx, *arg):
                     await ctx.send("Oops! Did you cast confusion? We couldn't parse your input!")
                     return
                 
-                output += arg[i]
+                if res < 0:
+                    output += " - " + arg[i]
+                else:
+                    output += arg[i]
                 
                 if is_subtract:
                         total -= res
