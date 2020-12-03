@@ -16,5 +16,5 @@ def roll(num: int = 20):
     if res == num:
         return "**Result:** 1d" + str(num) + " **" + str(res) + "**"
     else:
-        return "**Result:** 1d" + str(num) + " (" + res + ")"
+        return "**Result:** 1d" + str(num) + " (" + str(res) + ")"
 
