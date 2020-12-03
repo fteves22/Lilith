@@ -358,10 +358,19 @@ async def roll(ctx, *arg):
     await ctx.message.delete()
 
     username = ctx.message.author
+    output = ""
+    total = 0
+    totalMsg = "\n**Total:** "
 
-    if arg == ('',):
-        await ctx.send(diceRoll.roll())
+    if arg[0] == '':
+        res = diceRoll.roll()
+        output += res[0]
+        total = res[1]
     elif len(arg) == 1:
-        await ctx.send(diceRoll.roll(arg[0]))
+        res = diceRoll.roll(arg[0])
+        output += res[0]
+        total = res[1]
+    
+    await ctx.send(output + totalMsg + str(total))
 
 bot.run(TOKEN)

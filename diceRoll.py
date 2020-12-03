@@ -13,8 +13,11 @@ def roll(num: int = 20):
         return "Dice needs to be a positive integer!"
     
     res = random.randint(1, num)
+    output = ""
     if res == num:
-        return "**Result:** 1d" + str(num) + " **" + str(res) + "**"
+        output += "**Result:** 1d" + str(num) + " **" + str(res) + "**"
     else:
-        return "**Result:** 1d" + str(num) + " (" + str(res) + ")"
+        output += "**Result:** 1d" + str(num) + " (" + str(res) + ")"
+    
+    return [output, res]
 
