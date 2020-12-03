@@ -356,6 +356,7 @@ async def roll(ctx, *arg):
     
     # Delete command message.
     await ctx.message.delete()
+    print(arg)
 
     username = ctx.message.author
     output = ""
@@ -371,6 +372,6 @@ async def roll(ctx, *arg):
         output += res[0]
         total = res[1]
     
-    await ctx.send(output + totalMsg + str(total))
+    await ctx.send(username.mention + '🎲\n' + output + totalMsg + str(total))
 
 bot.run(TOKEN)
