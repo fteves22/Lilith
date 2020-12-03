@@ -373,4 +373,10 @@ async def roll(ctx, *arg):
     
     await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
+@bot.command()
+async def r(ctx, *arg):
+    ''' Rolls dice. '''
+
+    await roll(ctx, " ".join(arg))
+
 bot.run(TOKEN)
