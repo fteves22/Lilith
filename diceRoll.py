@@ -84,7 +84,10 @@ def fudgeMod(mod, fudge):
         roll = fudge - mod
         output += "(" + str(roll) + ")"
 
-    output += " + " + str(mod)
+    if mod > 0:
+        output += " + " + str(mod)
+    elif mod < 0:
+        output += " - " + str(-mod)
 
     return [output, fudge, False]
 
