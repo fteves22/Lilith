@@ -1,10 +1,10 @@
 import random
 
-def roll(num = 20):
+def roll(num: int = 20):
     ''' Rolls one num-sided dice.
         Inputs:     num - size of the dice to be rolled
         Outputs:    string indicating error, or result of roll '''
-
+    
     try:
         num = int(num)
     except ValueError:
