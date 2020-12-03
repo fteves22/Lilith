@@ -441,7 +441,7 @@ async def froll(ctx, *arg):
     output = "**Result:** 1d20 "
     totalMsg = "\n**Total:** "
 
-    if "+" in arg[0] or "-" in arg[0]:
+    if "+" in arg[0] or "-" in arg[0] and len(arg) == 2:
         res = diceRoll.fudgeMod(arg[0], arg[1])
         if res[2] == True:
             await ctx.send(res[0])
@@ -449,7 +449,7 @@ async def froll(ctx, *arg):
         else:
             total = res[1]
             output += res[0]
-    else:
+    elif len(arg) == 1:
         res = diceRoll.fudge(arg[0])
         if res[2] == True:
             await ctx.send(res[0])
@@ -457,6 +457,8 @@ async def froll(ctx, *arg):
         else:
             total = res[1]
             output += res[0]
+    else:
+        await ctx.send("Oops! Did you cast confusion? We couldn't parse your input!")
 
     await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 

@@ -69,7 +69,7 @@ def fudgeMod(mod, fudge):
         mod = int(mod)
         fudge = int(fudge)
     except ValueError:
-        return ["Oops! Did you cast confusion? We couldn't parse your input!", True]
+        return ["Oops! Did you cast confusion? We couldn't parse your input!", 0, True]
     
     print(mod)
     print(fudge)
@@ -96,7 +96,7 @@ def fudge(fudge: int = 20):
     try:
         fudge = int(fudge)
     except ValueError:
-        return ["Oops! Did you cast confusion? We couldn't parse your input!", True]
+        return ["Oops! Did you cast confusion? We couldn't parse your input!", 0, True]
     
     if fudge >= 20:
         fudge = 20
