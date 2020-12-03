@@ -39,7 +39,7 @@ async def setPrefix(ctx, arg = ''):
     await ctx.message.delete()
 
     if arg == '':
-        await ctx.send("ERROR: Prefix required. Use `!setPrefix [p]` to set your server's prefix.")
+        await ctx.send("⚠️ Prefix required. Use `!setPrefix [p]` to set your server's prefix.")
     else:
         await ctx.send("Prefix: `" + p.setPrefix(guild, prefix) + "`")
 
@@ -94,7 +94,7 @@ async def help(ctx, arg = ''):
     elif arg == 'next' or arg == 'prev' or arg == 'previous':
         msg = nextMsg + "\n" + prevMsg
     else:
-        msg = "ERROR: `" + arg + "` doesn't exist. Use `!help` for complete list of commands."
+        msg = "⚠️ `" + arg + "` doesn't exist. Use `!help` for complete list of commands."
         
     msg = msg + "\n\n" + "Prefix: `" + p + "`"
     await ctx.send(msg)
@@ -129,7 +129,7 @@ async def join(ctx, *arg):
 
     # Missing parameters.
     if len(arg) < 2:
-        await ctx.send("ERROR: To join initiative, the input must be in the form: `[name] [initiative roll]`.")
+        await ctx.send("⚠️ To join initiative, the input must be in the form: `[name] [initiative roll]`.")
     else:
         username = ctx.message.author
         name = " ".join(arg[:-1])
@@ -170,7 +170,7 @@ async def kill(ctx, *arg):
             break
     
     if not found:
-        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     msg = tracker.kill(name)
     await ctx.send(username.mention + " " + msg)
@@ -192,7 +192,7 @@ async def begin(ctx):
             break
     
     if not found:
-        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     result = tracker.begin()
     botMessage = await ctx.send(result)
@@ -219,7 +219,7 @@ async def end(ctx):
             break
     
     if not found:
-        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
     
     await tracker.last_message.remove_reaction("⏮️", bot.user)
     await tracker.last_message.remove_reaction("⏭️", bot.user)
@@ -247,7 +247,7 @@ async def next(ctx):
             break
     
     if not found:
-        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     result = tracker.next()
     botMessage = await ctx.send(result)
@@ -277,7 +277,7 @@ async def prev(ctx):
             break
     
     if not found:
-        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
         
     result = tracker.prev()
     botMessage = await ctx.send(result)
@@ -310,7 +310,7 @@ async def show(ctx):
             break
     
     if not found:
-        await ctx.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
         return
     
     if tracker.last_message != None:
@@ -341,7 +341,7 @@ async def on_reaction_add(reaction, user):
             break
     
     if not found:
-        await channel.send("ERROR: Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await channel.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     current = tracker.trackerInfo[tracker.currentPlayer][0]
 

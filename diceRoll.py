@@ -63,6 +63,11 @@ def multiroll(q: int = 1, d: int = 20):
         return [output, total]
 
 def fudgeMod(mod, fudge):
+    ''' Fudges a 1d20 + mod roll.
+        Inputs:     mod - modifier
+                    fudge - total fudge roll
+        Output:     string indicating error, or result of roll '''
+
     output = ""
 
     try:
@@ -92,6 +97,9 @@ def fudgeMod(mod, fudge):
     return [output, fudge, False]
 
 def fudge(fudge: int = 20):
+    ''' Fudges a 1d20 roll.
+        Inputs:     fudge - total fudge roll
+        Output:     string indicating error, or result of roll '''
     output = ""
 
     print(fudge)
