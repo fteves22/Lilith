@@ -439,19 +439,19 @@ async def froll(ctx, *arg):
 
     if "+" in arg[0] or "-" in arg[0]:
         res = diceRoll.fudgeMod(arg[0], arg[1])
-        if res[1] == True:
+        if res[2] == True:
             await ctx.send(res[0])
             return
         else:
-            total = int(arg[1])
+            total = res[1]
             output += res[0]
     else:
         res = diceRoll.fudge(arg[0])
-        if res[1] == True:
+        if res[2] == True:
             await ctx.send(res[0])
             return
         else:
-            total = int(arg[0])
+            total = res[1]
             output += res[0]
 
     await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))

@@ -86,7 +86,7 @@ def fudgeMod(mod, fudge):
 
     output += " + " + str(mod)
 
-    return [output, False]
+    return [output, fudge, False]
 
 def fudge(fudge: int = 20):
     output = ""
@@ -105,4 +105,4 @@ def fudge(fudge: int = 20):
     else:
         output += "(" + str(fudge) + ")"
     
-    return [output, False]
+    return [output, fudge, False]
