@@ -378,6 +378,6 @@ async def r(ctx, args):
     ''' Rolls dice. '''
     print(args)
 
-    await roll(ctx, args)
+    await roll(ctx, str(args))
 
 bot.run(TOKEN)

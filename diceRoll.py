@@ -8,9 +8,9 @@ def roll(num: int = 20):
     try:
         num = int(num)
     except ValueError:
-        return "Dice needs to be a positive integer!"
+        return ["Dice needs to be a positive integer!", 0]
     if num < 1:
-        return "Dice needs to be a positive integer!"
+        return ["Dice needs to be a positive integer!", 0]
     
     res = random.randint(1, num)
     output = ""
