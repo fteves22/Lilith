@@ -367,12 +367,14 @@ async def roll(ctx, *arg):
     # Delete command message.
     await ctx.message.delete()
 
+    arg = splitMe(arg)
+
     username = ctx.message.author
     output = ""
     total = 0
     totalMsg = "\n**Total:** "
 
-    if arg == ():
+    if arg == []:
         res = diceRoll.roll()
         output += res[0]
         total = res[1]
@@ -465,5 +467,13 @@ async def froll(ctx, *arg):
 
     await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
+def splitMe(arg):
+    ''' HELPER FUNCTION: To parse roll inputs. '''
+
+    arg = "".join(arg)
+    splitPlus = " + ".join(arg.split('+'))
+    fullSplit = " - ".join(splitPlus.split('-')).split()
+
+    return fullSplit
 
 bot.run(TOKEN)
