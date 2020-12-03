@@ -15,7 +15,7 @@ def roll(num: int = 20):
     res = random.randint(1, num)
     output = ""
     if res == num:
-        output += "**Result:** 1d" + str(num) + " **" + str(res) + "**"
+        output += "**Result:** 1d" + str(num) + " (**" + str(res) + "**)"
     else:
         output += "**Result:** 1d" + str(num) + " (" + str(res) + ")"
     
