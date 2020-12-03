@@ -359,7 +359,6 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
-    print(arg)
     
     # Delete command message.
     await ctx.message.delete()
