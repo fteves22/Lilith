@@ -82,7 +82,7 @@ def fudgeMod(mod, fudge):
         output += "(1)"
     else:
         roll = fudge - mod
-        output += "(" + roll + ")"
+        output += "(" + str(roll) + ")"
 
     output += " + " + str(mod)
 
