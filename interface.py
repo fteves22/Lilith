@@ -425,6 +425,7 @@ async def roll(ctx, *arg):
 @bot.command()
 async def froll(ctx, *arg):
     ''' Fudges a 1d20 roll. '''
+    print(arg)
 
     # Delete command message.
     await ctx.message.delete()
