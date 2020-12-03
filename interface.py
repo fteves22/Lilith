@@ -388,6 +388,9 @@ async def roll(ctx, *arg):
                 q = params[0]
                 d = params[1]
 
+                if q == '':
+                    q = '1'
+
                 res = diceRoll.multiroll(q, d)
                 if res[1] != 0:
                     output += res[0]
