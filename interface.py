@@ -339,6 +339,9 @@ async def on_reaction_add(reaction, user):
     current = tracker.trackerInfo[tracker.currentPlayer][0]
 
     if user == current and tracker.last_message == message_id:
+        await tracker.last_message.remove_reaction("⏮️", bot.user)
+        await tracker.last_message.remove_reaction("⏭️", bot.user)
+
         if emoji == "⏮️":
             await prev(channel)
         elif emoji == "⏭️":
@@ -379,6 +382,6 @@ async def r(ctx, *arg):
     ''' Rolls dice. '''
     print(arg)
 
-    await roll(ctx, str(arg))
+    await roll(ctx, )
 
 bot.run(TOKEN)
