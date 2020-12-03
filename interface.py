@@ -356,14 +356,13 @@ async def roll(ctx, *arg):
     
     # Delete command message.
     await ctx.message.delete()
-    print(arg)
 
     username = ctx.message.author
     output = ""
     total = 0
     totalMsg = "\n**Total:** "
 
-    if arg[0] == '':
+    if arg == ():
         res = diceRoll.roll()
         output += res[0]
         total = res[1]
