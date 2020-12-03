@@ -39,7 +39,7 @@ class InitTracker:
             if self.rounds == 0:
                 return toPrint
             else:
-                return toPrint + "\n" + self.trackerInfo[self.currentPlayer][0].mention + ", it's " + str(self.trackerInfo[self.currentPlayer[1]]) + "'s turn!"
+                return toPrint + "\n" + self.trackerInfo[self.currentPlayer][0].mention + ", it's " + str(self.trackerInfo[self.currentPlayer][1]) + "'s turn!"
     
     def join(self, username, name, initiative):
         ''' Adds new combatant's information into trackerInfo.
@@ -126,7 +126,7 @@ class InitTracker:
         if self.currentPlayer == 0:
             return self.printTracker()
         else:
-            return self.trackerInfo[self.currentPlayer][0].mention + ", it's " + str(self.trackerInfo[self.currentPlayer[1]]) + "'s turn!"
+            return self.trackerInfo[self.currentPlayer][0].mention + ", it's " + str(self.trackerInfo[self.currentPlayer][1]) + "'s turn!"
     
     def prev(self):
         ''' Moves to the previous combatant in initiative.
