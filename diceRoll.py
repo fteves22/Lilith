@@ -99,8 +99,10 @@ def fudge(fudge: int = 20):
         return ["Oops! Did you cast confusion? We couldn't parse your input!", True]
     
     if fudge >= 20:
+        fudge = 20
         output += "(**20**)"
     elif fudge < 1:
+        fudge = 1
         output += "(1)"
     else:
         output += "(" + str(fudge) + ")"
