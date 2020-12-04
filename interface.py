@@ -442,7 +442,7 @@ async def froll(ctx, *arg):
     await ctx.message.delete()
 
     if "DM" not in [r.name for r in ctx.message.author.roles]:
-        fString = "This is a fudged roll. (You tried, buddy.)\n\n"
+        fString = "This is a fudged roll. (You tried, buddy.)\nYou need to have the `DM` Role to be able to use this feature.\n\n"
     else:
         fString = ""
 
