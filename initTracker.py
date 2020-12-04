@@ -88,7 +88,7 @@ class InitTracker:
             Outputs:    string indicating error or success '''
 
         if self.rounds != 0:
-            return "Combat has already begun! Use !end to clear the initiative tracker."
+            return "Combat has already begun! Use `end` to clear the initiative tracker."
         elif len(self.trackerInfo) < 2:
             return "At least two combatants required!"
         else:
@@ -115,7 +115,7 @@ class InitTracker:
             Outputs:    None '''
 
         if self.rounds == 0:
-            return "Combat hasn't begun yet! Use !begin to begin combat."  
+            return "Combat hasn't begun yet! Use `begin` to begin combat."  
         # Loop around initiative accordingly.
         elif self.currentPlayer + 1 == len(self.trackerInfo):
             self.currentPlayer = 0
@@ -134,7 +134,7 @@ class InitTracker:
             Outputs:    None '''
 
         if self.rounds == 0:
-            return "Combat hasn't begun yet! Use !begin to begin combat."
+            return "Combat hasn't begun yet! Use `begin` to begin combat."
         # Don't go past currentPlayer = 0, rounds = 1.
         elif self.currentPlayer == 0 and self.rounds == 1:
             return "You're at the beginning of combat already!"

@@ -39,16 +39,9 @@ async def setPrefix(ctx, arg = ''):
     await ctx.message.delete()
 
     if arg == '':
-        await ctx.send("⚠️ Prefix required. Use `!setPrefix [p]` to set your server's prefix.")
+        await ctx.send("⚠️ Prefix required. Use `setPrefix [p]` to set your server's prefix.")
     else:
         await ctx.send("Prefix: `" + p.setPrefix(guild, prefix) + "`")
-
-@bot.command()
-async def prefix(ctx):    
-    # Delete command message.
-    await ctx.message.delete()
-
-    await ctx.send("Prefix: `" + _prefix_callable(bot, ctx.message) + "`")
 
 @bot.command()
 async def showAllPrefixes(ctx):
@@ -69,30 +62,36 @@ async def on_ready():
 async def help(ctx, arg = ''):
     p = _prefix_callable(bot, ctx.message)
 
-    helpMsg = "`!help`: Shows a list of common commands, and a link to a list of all commands."
-    prefixMsg = "`!prefix`: Shows current prefix."
-    setPrefixMsg = "`!setPrefix [p]`: Sets prefix to `p`."
-    cleanMsg = "`!clean`: Deletes all bot messages in a channel."
+    helpMsg = "`help`: Shows a list of common commands, and a link to a list of all commands."
+    setPrefixMsg = "`setPrefix [p]`: Sets prefix to `p`."
+    cleanMsg = "`clean`: Deletes all bot messages in a channel."
 
-    joinMsg = "`!join [name] [i]`: Adds a combatant as `name` to the combat order with `i` for their initiative roll."
-    killMsg = "`!kill [name]`: Deletes the combatant `name` if they exist in the combat order."
-    beginMsg = "`!begin`: Begins combat, and tags the first player in combat."
-    endMsg = "`!end`: Ends combat, and clears the tracker of all player information."
-    nextMsg = "`!next`: Moves onto the next player in combat."
-    prevMsg = "`!previous`: Moves back to the previous player in combat. (Alias: `!prev`)"
-    showMsg = "`!show`: Shows full combat order."
+    joinMsg = "`join [name] [i]`: Adds a combatant as `name` to the combat order with `i` for their initiative roll."
+    killMsg = "`kill [name]`: Deletes the combatant `name` if they exist in the combat order."
+    beginMsg = "`begin`: Begins combat, and tags the first player in combat."
+    endMsg = "`end`: Ends combat, and clears the tracker of all player information."
+    nextMsg = "`next`: Moves onto the next player in combat."
+    prevMsg = "`previous`: Moves back to the previous player in combat. (Alias: `prev`)"
+    showMsg = "`show`: Shows full combat order."
+
+    rollMsg1 = "`roll | roll [dice]`: Without any parameters, this rolls a 1d20. With an integer `dice`, it rolls a 1d`[dice]`."
+    rollMsg2 = "`roll [quantity] d [dice] + [mod] + ...`: Rolls all specified `[quantity] d [dice]`, and adds any `mod`s."
+    gmrollMsg = "`gmroll [mention] [roll info]`: Sends a DM to the user you @`mention`ed in with the `roll` information."
 
     if arg == '':
         msg = "**Commands**" + "\n" + helpMsg + "\n" + prefixMsg + "\n" + setPrefixMsg + "\n" + cleanMsg
-        msg = msg + "\n" + joinMsg + "\n" + killMsg + "\n" + beginMsg + "\n" + endMsg + "\n" + nextMsg + "\n" + prevMsg + "\n" + showMsg
-    elif arg == 'prefix' or arg == 'setPrefix':
+        msg += "\n\n" + joinMsg + "\n" + killMsg + "\n" + beginMsg + "\n" + endMsg + "\n" + nextMsg + "\n" + prevMsg + "\n" + showMsg
+        msg += "\n\n" + rollMsg1 + "\n" + rollMsg2  + "\n" + gmrollMsg
+    elif arg in ['prefix', 'setPrefix']:
         msg = prefixMsg + "\n" + setPrefixMsg
-    elif arg == 'initiative' or arg == 'join' or arg == 'begin' or arg == 'show':
+    elif arg in ['initiative', 'join', 'begin', 'show']:
         msg = joinMsg + "\n" + beginMsg + "\n" + showMsg
-    elif arg == 'stop' or arg == 'end' or arg == 'kill' or arg == 'delete':
+    elif arg in ['stop', 'end', 'kill', 'delete']:
         msg = killMsg + "\n" + endMsg
-    elif arg == 'next' or arg == 'prev' or arg == 'previous':
+    elif arg in ['next', 'prev', 'previous']:
         msg = nextMsg + "\n" + prevMsg
+    elif arg in ['dice', 'roll', 'gmroll']:
+        msg = rollMsg1 + "\n" + rollMsg2 + "\n" + gmrollMsg
     else:
         msg = "⚠️ `" + arg + "` doesn't exist. Use `!help` for complete list of commands."
         
@@ -192,7 +191,7 @@ async def begin(ctx):
             break
     
     if not found:
-        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `join [name] [i]` to add a combatant to initiative.")
 
     result = tracker.begin()
     botMessage = await ctx.send(result)
@@ -219,7 +218,7 @@ async def end(ctx):
             break
     
     if not found:
-        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `join [name] [i]` to add a combatant to initiative.")
     
     await tracker.last_message.remove_reaction("⏮️", bot.user)
     await tracker.last_message.remove_reaction("⏭️", bot.user)
@@ -247,7 +246,7 @@ async def next(ctx):
             break
     
     if not found:
-        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `join [name] [i]` to add a combatant to initiative.")
 
     result = tracker.next()
     botMessage = await ctx.send(result)
@@ -277,7 +276,7 @@ async def prev(ctx):
             break
     
     if not found:
-        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `join [name] [i]` to add a combatant to initiative.")
         
     result = tracker.prev()
     botMessage = await ctx.send(result)
@@ -310,7 +309,7 @@ async def show(ctx):
             break
     
     if not found:
-        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
+        await ctx.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `join [name] [i]` to add a combatant to initiative.")
         return
     
     if tracker.last_message != None:
@@ -521,7 +520,7 @@ async def gmroll(ctx, *arg):
     await roll(channel, tuple([params, sender.display_name]))
 
 def splitMe(arg):
-    ''' HELPER FUNCTION: To parse roll inputs. '''
+    ''' HELPER FUNCTION: To split tuples into roll chunks. '''
 
     arg = "".join(arg)
     splitPlus = " + ".join(arg.split('+'))
