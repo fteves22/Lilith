@@ -513,13 +513,10 @@ async def gmroll(ctx, *arg):
 
     for item in arg[1:]:
         params.append(item)
-
     
-    print(tuple(params))
-
+    if recipients[0].dm_channel == None:
+        await recipients[0].create_dm()
     channel = recipients[0].dm_channel
-    if channel == None:
-        channel = recipients[0].create_dm()
     
     await roll(channel, tuple([params, sender.name]))
 
