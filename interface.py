@@ -339,9 +339,6 @@ async def on_reaction_add(reaction, user):
             tracker = data[1]
             found = True
             break
-    
-    if not found:
-        await channel.send("⚠️ Initiative tracker hasn't been instantiated.\nUse `!join [name] [i]` to add a combatant to initiative.")
 
     current = tracker.trackerInfo[tracker.currentPlayer][0]
 
