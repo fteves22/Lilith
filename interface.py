@@ -363,9 +363,8 @@ async def roll(ctx, *arg):
 
     # If being called from somewhere else...
     if len(arg) != 0 and type(arg[0]) == tuple:
-        print(arg)
-        arg = splitMe(arg[0][0])
         name = arg[0][1]
+        arg = splitMe(arg[0][0])
         normal = False
     # If normal roll...
     else:
