@@ -442,7 +442,9 @@ async def froll(ctx, *arg):
     await ctx.message.delete()
 
     if "DM" not in [r.name for r in ctx.message.author.roles]:
-        await ctx.send("This is a fudged roll.\n(You tried, buddy.)\n")
+        fString = "This is a fudged roll. (You tried, buddy.)\n\n"
+    else:
+        fString = ""
 
     username = ctx.message.author
     output = "**Result:** 1d20 "
@@ -467,7 +469,7 @@ async def froll(ctx, *arg):
     else:
         await ctx.send("Oops! Did you cast confusion? We couldn't parse your input!")
 
-    await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
+    await ctx.send(username.mention + ' 🎲\n' + fString + output + totalMsg + str(total))
 
 def splitMe(arg):
     ''' HELPER FUNCTION: To parse roll inputs. '''
