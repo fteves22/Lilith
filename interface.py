@@ -362,7 +362,7 @@ async def roll(ctx, *arg):
     ''' Rolls dice. '''
 
     # If being called from somewhere else...
-    if type(arg[0]) == tuple:
+    if len(arg) != 0 and type(arg[0]) == tuple:
         print(arg)
         arg = splitMe(arg[0][0])
         name = arg[0][1]
