@@ -373,15 +373,18 @@ async def roll(ctx, *arg):
     output = ""
     total = 0
     totalMsg = "\n**Total:** "
+    has_error = False
 
     if arg == []:
         res = diceRoll.roll()
         output += res[0]
         total = res[1]
+        has_error = res[2]
     elif len(arg) == 1 and "d" not in arg[0]:
         res = diceRoll.roll(arg[0])
         output += res[0]
         total = res[1]
+        has_error = res[2]
     # Complex roll!
     else:
         output += "**Result:** "
@@ -398,6 +401,9 @@ async def roll(ctx, *arg):
                     q = '1'
 
                 res = diceRoll.multiroll(q, d)
+                if res[2]:
+                    has_error = True
+                
                 if res[1] != 0:
                     output += res[0]
 
@@ -432,7 +438,10 @@ async def roll(ctx, *arg):
                 else:
                     total += res
     
-    await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
+    if has_error:
+        await ctx.send(username.mention + output)
+    else:
+        await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
 @bot.command()
 async def froll(ctx, *arg):

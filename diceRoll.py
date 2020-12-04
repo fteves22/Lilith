@@ -8,9 +8,9 @@ def roll(num: int = 20):
     try:
         num = int(num)
     except ValueError:
-        return ["Dice needs to be a positive integer!", 0]
+        return ["Dice needs to be a positive integer!", 0, True]
     if num < 1:
-        return ["Dice needs to be a positive integer!", 0]
+        return ["Dice needs to be a positive integer!", 0, True]
     
     res = random.randint(1, num)
     output = "**Result:** 1d" + str(num)
@@ -19,7 +19,7 @@ def roll(num: int = 20):
     else:
         output += " (" + str(res) + ")"
     
-    return [output, res]
+    return [output, res, False]
 
 def multiroll(q: int = 1, d: int = 20):
     ''' Rolls q d-sided dice, then adds mod.
@@ -41,7 +41,7 @@ def multiroll(q: int = 1, d: int = 20):
         error_str += "`[dice]` "
 
     if has_error:
-        return [error_str, 0]
+        return [error_str, 0, True]
     else:
         total = 0    
         output = str(q) + "d" + str(d) + " ("
@@ -60,7 +60,7 @@ def multiroll(q: int = 1, d: int = 20):
             else:
                 output += ")"
         
-        return [output, total]
+        return [output, total, False]
 
 def fudgeMod(mod, fudge):
     ''' Fudges a 1d20 + mod roll.
