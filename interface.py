@@ -450,7 +450,7 @@ async def roll(ctx, *arg):
     if has_error:
         await ctx.send(username.mention + ' 🎲\n' + output)
     elif not normal:
-        await ctx.send(name + " whispered a roll to you. 🎲\n" + output)
+        await ctx.send(name + " whispered a roll to you. 🎲\n" + output + totalMsg + str(total))
     else:
         await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
