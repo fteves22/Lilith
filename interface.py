@@ -360,15 +360,16 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
-    
-    # Delete command message.
-    await ctx.message.delete()
 
     # If being called from somewhere else...
     if type(arg[0]) == tuple:
         arg = splitMe(arg[0][0])
         username = arg[0][1]
+    # If normal roll...
     else:
+        # Delete command message.
+        await ctx.message.delete()
+    
         arg = splitMe(arg)
         username = ctx.message.author
 
@@ -377,11 +378,13 @@ async def roll(ctx, *arg):
     totalMsg = "\n**Total:** "
     has_error = False
 
+    # Default roll
     if arg == []:
         res = diceRoll.roll()
         output += res[0]
         total = res[1]
         has_error = res[2]
+    # Only dice size given
     elif len(arg) == 1 and "d" not in arg[0]:
         res = diceRoll.roll(arg[0])
         output += res[0]
@@ -392,6 +395,7 @@ async def roll(ctx, *arg):
         output += "**Result:** "
         is_subtract = False
 
+        # Handle each rolling chunk in the params.
         for i in range(len(arg)):
             # In the form [quantity]d[dice]
             if "d" in arg[i]:
@@ -486,6 +490,9 @@ async def froll(ctx, *arg):
 @bot.command()
 async def gmroll(ctx, *arg):
     ''' Sends results to the person mentioned. '''
+
+    # Delete command message.
+    await ctx.message.delete()
 
     sender = ctx.message.author
     recipients = ctx.message.mentions
