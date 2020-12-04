@@ -384,7 +384,7 @@ async def roll(ctx, *arg):
         total = res[1]
     # Complex roll!
     else:
-        output += "**Results:** "
+        output += "**Result:** "
         is_subtract = False
 
         for i in range(len(arg)):
