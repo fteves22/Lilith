@@ -437,10 +437,12 @@ async def roll(ctx, *arg):
 @bot.command()
 async def froll(ctx, *arg):
     ''' Fudges a 1d20 roll. '''
-    print(arg)
 
     # Delete command message.
     await ctx.message.delete()
+
+    if "DM" not in [r.name for r in ctx.message.author.roles]:
+        await ctx.send("This is a fudged roll.\n(You tried, buddy.)\n")
 
     username = ctx.message.author
     output = "**Result:** 1d20 "

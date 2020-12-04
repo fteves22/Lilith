@@ -76,9 +76,6 @@ def fudgeMod(mod, fudge):
     except ValueError:
         return ["Oops! Did you cast confusion? We couldn't parse your input!", 0, True]
     
-    print(mod)
-    print(fudge)
-    
     if fudge >= 20 + mod:
         fudge = 20 + mod
         output += "(**20**)"
@@ -101,8 +98,6 @@ def fudge(fudge: int = 20):
         Inputs:     fudge - total fudge roll
         Output:     string indicating error, or result of roll '''
     output = ""
-
-    print(fudge)
 
     try:
         fudge = int(fudge)
