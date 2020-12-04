@@ -477,6 +477,19 @@ async def froll(ctx, *arg):
 
     await ctx.send(username.mention + ' 🎲\n' + fString + output + totalMsg + str(total))
 
+
+@bot.command()
+async def gmRoll(ctx, *arg):
+    ''' Sends results to the person mentioned. '''
+
+    sender = ctx.message.author
+    recipients = ctx.message.mentions
+
+    print(arg)
+
+    
+
+
 def splitMe(arg):
     ''' HELPER FUNCTION: To parse roll inputs. '''
 
