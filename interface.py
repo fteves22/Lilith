@@ -439,7 +439,7 @@ async def roll(ctx, *arg):
                     total += res
     
     if has_error:
-        await ctx.send(username.mention + output)
+        await ctx.send(username.mention + ' 🎲\n' + output)
     else:
         await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
