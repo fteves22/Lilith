@@ -364,7 +364,8 @@ async def roll(ctx, *arg):
     # If being called from somewhere else...
     if type(arg[0]) == tuple:
         arg = splitMe(arg[0][0])
-        username = arg[0][1]
+        name = arg[0][1]
+        normal = False
     # If normal roll...
     else:
         # Delete command message.
@@ -372,6 +373,7 @@ async def roll(ctx, *arg):
     
         arg = splitMe(arg)
         username = ctx.message.author
+        normal = True
 
     output = ""
     total = 0
@@ -446,6 +448,8 @@ async def roll(ctx, *arg):
     
     if has_error:
         await ctx.send(username.mention + ' 🎲\n' + output)
+    elif not normal:
+        await ctx.send(name + "whispered a roll to you. 🎲\n" + output)
     else:
         await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
@@ -517,7 +521,7 @@ async def gmroll(ctx, *arg):
     if channel == None:
         channel = recipients[0].create_dm()
     
-    await roll(channel, tuple([params, sender]))
+    await roll(channel, tuple([params, sender.name]))
 
 def splitMe(arg):
     ''' HELPER FUNCTION: To parse roll inputs. '''
