@@ -500,17 +500,17 @@ async def gmroll(ctx, *arg):
 
     params = []
 
-    for item in arg:
-        if type(item) != discord.Member:
-            params.append(item)
+    for item in arg[1:]:
+        params.append(item)
+
     
     print(tuple(params))
 
-    # channel = recipients[0].dm_channel
-    # if channel == None:
-    #     channel = recipients[0].create_dm()
+    channel = recipients[0].dm_channel
+    if channel == None:
+        channel = recipients[0].create_dm()
     
-    # await roll(channel, tuple([params, sender]))
+    await roll(channel, tuple([params, sender]))
 
 def splitMe(arg):
     ''' HELPER FUNCTION: To parse roll inputs. '''
