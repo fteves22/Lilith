@@ -519,7 +519,7 @@ async def gmroll(ctx, *arg):
         await recipients[0].create_dm()
     channel = recipients[0].dm_channel
     
-    await roll(channel, tuple([params, sender.nick]))
+    await roll(channel, tuple([params, sender.display_name]))
 
 def splitMe(arg):
     ''' HELPER FUNCTION: To parse roll inputs. '''
