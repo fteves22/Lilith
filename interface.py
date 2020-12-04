@@ -364,9 +364,14 @@ async def roll(ctx, *arg):
     # Delete command message.
     await ctx.message.delete()
 
-    arg = splitMe(arg)
+    # If being called from somewhere else...
+    if type(arg[0]) == tuple:
+        arg = splitMe(arg[0][0])
+        username = arg[0][1]
+    else:
+        arg = splitMe(arg)
+        username = ctx.message.author
 
-    username = ctx.message.author
     output = ""
     total = 0
     totalMsg = "\n**Total:** "
@@ -479,16 +484,33 @@ async def froll(ctx, *arg):
 
 
 @bot.command()
-async def gmRoll(ctx, *arg):
+async def gmroll(ctx, *arg):
     ''' Sends results to the person mentioned. '''
 
     sender = ctx.message.author
     recipients = ctx.message.mentions
 
-    print(arg)
+    if len(recipients) > 1:
+        sender_channel = sender.dm_channel
+        if sender_channel == None:
+            sender_channel = sender.create_dm()
+        
+        await sender_channel.send("You're only allowed to whisper a roll to one person!")
+        return
 
+    params = []
+
+    for item in arg:
+        if type(item) != discord.Member:
+            params.append(item)
     
+    print(tuple(params))
 
+    # channel = recipients[0].dm_channel
+    # if channel == None:
+    #     channel = recipients[0].create_dm()
+    
+    # await roll(channel, tuple([params, sender]))
 
 def splitMe(arg):
     ''' HELPER FUNCTION: To parse roll inputs. '''
