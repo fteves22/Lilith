@@ -363,6 +363,7 @@ async def roll(ctx, *arg):
 
     # If being called from somewhere else...
     if type(arg[0]) == tuple:
+        print(arg)
         arg = splitMe(arg[0][0])
         name = arg[0][1]
         normal = False
@@ -449,7 +450,7 @@ async def roll(ctx, *arg):
     if has_error:
         await ctx.send(username.mention + ' 🎲\n' + output)
     elif not normal:
-        await ctx.send(name + "whispered a roll to you. 🎲\n" + output)
+        await ctx.send(name + " whispered a roll to you. 🎲\n" + output)
     else:
         await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
