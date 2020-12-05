@@ -442,7 +442,7 @@ async def gmroll(ctx, *arg):
 
     sender = ctx.message.author
     recipients = ctx.message.mentions
-    
+
     totalMsg = "\n**Total:** "
 
     params = arg[len(recipients):]
@@ -479,6 +479,7 @@ def complexRoll(arg):
     output = "**Result:** "
     total = 0
     is_subtract = False
+    has_error = False
 
     # Handle each rolling chunk in the params.
     for i in range(len(arg)):
