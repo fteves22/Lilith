@@ -454,7 +454,11 @@ async def gmroll(ctx, *arg):
 
     if has_error:
         await ctx.send(sender.mention + " " + output)  
-        return  
+        return
+
+    if sender.dm_channel == None:
+        await sender.create_dm()
+    sender_channel = sender.dm_channel  
     
     for recipient in recipients:
         if recipient.dm_channel == None:
@@ -462,6 +466,8 @@ async def gmroll(ctx, *arg):
         channel = recipient.dm_channel
 
         await channel.send(sender.display_name + " whispered a roll to you. 🎲\n" + output + totalMsg + str(total))
+    
+    await sender_channel.send("You whispered a roll to the following people: `" + str([r.display_name for r in recipients]) + "`.\n" + output + totalMsg + str(total))
 
 
 def splitMe(arg):
@@ -480,6 +486,8 @@ def complexRoll(arg):
     total = 0
     is_subtract = False
     has_error = False
+
+    print(arg)
 
     # Handle each rolling chunk in the params.
     for i in range(len(arg)):
