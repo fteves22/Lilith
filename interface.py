@@ -79,11 +79,11 @@ async def help(ctx, arg = ''):
     gmrollMsg = "`gmroll [mention] [roll info]`: Sends a DM to the user you @`mention`ed in with the `roll` information."
 
     if arg == '':
-        msg = "**Commands**" + "\n" + helpMsg + "\n" + prefixMsg + "\n" + setPrefixMsg + "\n" + cleanMsg
+        msg = "**Commands**" + "\n" + helpMsg + "\n" + "\n" + setPrefixMsg + "\n" + cleanMsg
         msg += "\n\n" + joinMsg + "\n" + killMsg + "\n" + beginMsg + "\n" + endMsg + "\n" + nextMsg + "\n" + prevMsg + "\n" + showMsg
         msg += "\n\n" + rollMsg1 + "\n" + rollMsg2  + "\n" + gmrollMsg
     elif arg in ['prefix', 'setPrefix']:
-        msg = prefixMsg + "\n" + setPrefixMsg
+        msg = setPrefixMsg
     elif arg in ['initiative', 'join', 'begin', 'show']:
         msg = joinMsg + "\n" + beginMsg + "\n" + showMsg
     elif arg in ['stop', 'end', 'kill', 'delete']:
@@ -360,19 +360,12 @@ async def on_reaction_add(reaction, user):
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
 
-    # If being called from somewhere else...
-    if len(arg) != 0 and type(arg[0]) == tuple:
-        name = arg[0][1]
-        arg = splitMe(arg[0][0])
-        normal = False
-    # If normal roll...
-    else:
-        # Delete command message.
-        await ctx.message.delete()
-    
-        arg = splitMe(arg)
-        username = ctx.message.author
-        normal = True
+    # Delete command message.
+    await ctx.message.delete()
+
+    arg = splitMe(arg)
+    username = ctx.message.author
+    normal = True
 
     output = ""
     total = 0
@@ -393,62 +386,13 @@ async def roll(ctx, *arg):
         has_error = res[2]
     # Complex roll!
     else:
-        output += "**Result:** "
-        is_subtract = False
+        res = complexRoll(arg)
+        output = res[0]
+        total = res[1]
+        has_error = res[2]
 
-        # Handle each rolling chunk in the params.
-        for i in range(len(arg)):
-            # In the form [quantity]d[dice]
-            if "d" in arg[i]:
-                params = arg[i].split("d")
-                q = params[0]
-                d = params[1]
-
-                if q == '':
-                    q = '1'
-
-                res = diceRoll.multiroll(q, d)
-                if res[2]:
-                    has_error = True
-                
-                if res[1] != 0:
-                    output += res[0]
-
-                    if is_subtract:
-                        total -= res[1]
-                    else:
-                        total += res[1]
-                else:
-                    await ctx.send("Oops! Did you cast confusion? We couldn't parse your input!")
-                    return
-            elif arg[i] == "+":
-                output += " + "
-                is_subtract = False
-            elif arg[i] == "-":
-                output += " - "
-                is_subtract = True
-            # It's a modifier.
-            else:
-                try:
-                    res = int(arg[i])
-                except ValueError:
-                    await ctx.send("Oops! Did you cast confusion? We couldn't parse your input!")
-                    return
-                
-                if res < 0:
-                    output += " - " + str(-res)
-                else:
-                    output += arg[i]
-                
-                if is_subtract:
-                        total -= res
-                else:
-                    total += res
-    
     if has_error:
         await ctx.send(username.mention + ' 🎲\n' + output)
-    elif not normal:
-        await ctx.send(name + " whispered a roll to you. 🎲\n" + output + totalMsg + str(total))
     else:
         await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
@@ -489,35 +433,36 @@ async def froll(ctx, *arg):
 
     await ctx.send(username.mention + ' 🎲\n' + fString + output + totalMsg + str(total))
 
-
 @bot.command()
 async def gmroll(ctx, *arg):
-    ''' Sends results to the person mentioned. '''
+    ''' Sends results to the people mentioned, and yourself. '''
 
     # Delete command message.
     await ctx.message.delete()
 
     sender = ctx.message.author
     recipients = ctx.message.mentions
-
-    if len(recipients) > 1:
-        sender_channel = sender.dm_channel
-        if sender_channel == None:
-            sender_channel = sender.create_dm()
-        
-        await sender_channel.send("You're only allowed to whisper a roll to one person!")
-        return
-
-    params = []
-
-    for item in arg[1:]:
-        params.append(item)
     
-    if recipients[0].dm_channel == None:
-        await recipients[0].create_dm()
-    channel = recipients[0].dm_channel
+    totalMsg = "\n**Total:** "
+
+    params = arg[len(recipients):]
+    rollInfo = complexRoll(params)
+
+    output = rollInfo[0]
+    total = rollInfo[1]
+    has_error = rollInfo[2]
+
+    if has_error:
+        await ctx.send(sender.mention + " " + output)  
+        return  
     
-    await roll(channel, tuple([params, sender.display_name]))
+    for recipient in recipients:
+        if recipient.dm_channel == None:
+            await recipient.create_dm()
+        channel = recipient.dm_channel
+
+        await channel.send(sender.display_name + " whispered a roll to you. 🎲\n" + output + totalMsg + str(total))
+
 
 def splitMe(arg):
     ''' HELPER FUNCTION: To split tuples into roll chunks. '''
@@ -527,5 +472,63 @@ def splitMe(arg):
     fullSplit = " - ".join(splitPlus.split('-')).split()
 
     return fullSplit
+
+def complexRoll(arg):
+    ''' HELPER FUNCTION: To parse complex rolls. '''
+
+    output = "**Result:** "
+    total = 0
+    is_subtract = False
+
+    # Handle each rolling chunk in the params.
+    for i in range(len(arg)):
+        # In the form [quantity]d[dice]
+        if "d" in arg[i]:
+            params = arg[i].split("d")
+            q = params[0]
+            d = params[1]
+
+            if q == '':
+                q = '1'
+
+            res = diceRoll.multiroll(q, d)
+            if res[2]:
+                has_error = True
+            
+            if res[1] != 0:
+                output += res[0]
+
+                if is_subtract:
+                    total -= res[1]
+                else:
+                    total += res[1]
+            else:
+                output = "Oops! Did you cast confusion? We couldn't parse your input!\n" + res[0]
+                return [output, total, has_error]
+        elif arg[i] == "+":
+            output += " + "
+            is_subtract = False
+        elif arg[i] == "-":
+            output += " - "
+            is_subtract = True
+        # It's a modifier.
+        else:
+            try:
+                res = int(arg[i])
+            except ValueError:
+                output = "Oops! Did you cast confusion? We couldn't parse your input!"
+                return [output, total, has_error]
+            
+            if res < 0:
+                output += " - " + str(-res)
+            else:
+                output += arg[i]
+            
+            if is_subtract:
+                    total -= res
+            else:
+                total += res
+        
+    return [output, total, has_error]
 
 bot.run(TOKEN)
