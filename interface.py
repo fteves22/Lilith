@@ -25,9 +25,13 @@ def _prefix_callable(bot, msg):
     prefix = '!'
     guild = msg.guild
     if p.prefixInfo == []:
-        return commands.when_mentioned_or(prefix)(bot, msg)
+        pass
     else:
-        return commands.when_mentioned_or(p.getPrefix(guild))(bot, msg)
+        prefix = p.getPrefix(guild)
+    
+    if not guild:
+        return commands.when_mentioned_or(prefix)(bot, msg)
+    return commands.when_mentioned_or(prefix)(bot, msg)
 
 bot = commands.Bot(command_prefix=_prefix_callable, description=description, help_command = None)
 
