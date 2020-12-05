@@ -482,6 +482,8 @@ def splitMe(arg):
 def complexRoll(arg):
     ''' HELPER FUNCTION: To parse complex rolls. '''
 
+    arg = splitMe(arg)
+
     output = "**Result:** "
     total = 0
     is_subtract = False
