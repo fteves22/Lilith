@@ -62,7 +62,7 @@ async def showAllPrefixes(ctx):
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
-    await client.change_presence(status = discord.Status.online, activity = discord.Game("D&D 5E | !help"))
+    await client.change_presence(status = discord.Status.idle, activity = discord.Game("D&D 5E | !help"))
 
 @bot.command()
 async def help(ctx, arg = ''):
