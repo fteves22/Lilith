@@ -22,11 +22,12 @@ description = '''Lilith is a Discord bot designed to make Dungeons & Dragons eas
 p = Prefixes()
 
 def _prefix_callable(bot, msg):
+    prefix = '!'
     guild = msg.guild
     if p.prefixInfo == []:
-        return "!"
+        return commands.when_mentioned_or(prefix)(bot, msg)
     else:
-        return p.getPrefix(guild)
+        return commands.when_mentioned_or(p.getPrefix(guild))(bot, msg)
 
 bot = commands.Bot(command_prefix=_prefix_callable, description=description, help_command = None)
 
