@@ -392,10 +392,32 @@ async def roll(ctx, *arg):
         has_error = res[2]
     # Complex roll!
     else:
-        res = complexRoll(arg)
-        output = res[0]
-        total = res[1]
-        has_error = res[2]
+        if len(arg) == 2 and (arg[1] == 'adv' or arg[1] == 'dis'):
+            r1 = complexRoll(arg[:-1])
+            r2 = complexRoll(arg[:-1])
+
+            if r1[1] < r2[1]:
+                if arg[1] == 'adv':
+                    output = "**Result:** " + arg[0] + " (~~" + str(r1[1]) + "~~, " + str(r2[1]) + ")"
+                    total = r2[1]
+                if arg[1] == 'dis':
+                    output = "**Result:** " + arg[0] + " (" + str(r1[1]) + ", ~~" + str(r2[1]) + "~~)"
+                    total = r2[1]
+            elif r1[1] > r2[1]:
+                if arg[1] == 'adv':
+                    output = "**Result:** " + arg[0] + " (" + str(r1[1]) + ", ~~" + str(r2[1]) + "~~)"
+                    total = r1[1]
+                if arg[1] == 'dis':
+                    output = "**Result:** " + arg[0] + " (~~" + str(r1[1]) + "~~, " + str(r2[1]) + ")"
+                    total = r2[1]
+            else:
+                output = "**Result:** " + arg[0] + " (" + str(r1[1]) + ", ~~" + str(r2[1]) + "~~)"
+            has_error = r1[2] or r2[2]
+        else:
+            res = complexRoll(arg)
+            output = res[0]
+            total = res[1]
+            has_error = res[2]
 
     if has_error:
         await ctx.send(username.mention + ' 🎲\n' + output)
@@ -474,7 +496,6 @@ async def gmroll(ctx, *arg):
         await channel.send(sender.display_name + " whispered a roll to you. 🎲\n" + output + totalMsg + str(total))
     
     await sender_channel.send("You whispered a roll to the following people: `" + str([r.display_name for r in recipients]) + "`.\n" + output + totalMsg + str(total))
-
 
 def splitMe(arg):
     ''' HELPER FUNCTION: To split tuples into roll chunks. '''
