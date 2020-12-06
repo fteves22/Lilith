@@ -366,8 +366,9 @@ async def on_reaction_add(reaction, user):
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
 
-    # Delete command message.
-    await ctx.message.delete()
+    if not ctx.message.guild:
+        # Delete command message.
+        await ctx.message.delete()
 
     arg = splitMe(arg)
     username = ctx.message.author
