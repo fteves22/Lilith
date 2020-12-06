@@ -366,11 +366,10 @@ async def on_reaction_add(reaction, user):
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
 
-    if not ctx.message.guild:
-        # Delete command message.
-        await ctx.message.delete()
+    # Delete command message.
+    await ctx.message.delete()
 
-    arg = splitMe(arg)
+    arg = diceRoll.splitMe(arg)
     username = ctx.message.author
     normal = True
 
@@ -382,43 +381,26 @@ async def roll(ctx, *arg):
     # Default roll
     if arg == []:
         res = diceRoll.roll()
-        output += res[0]
-        total = res[1]
-        has_error = res[2]
     # Only dice size given
-    elif len(arg) == 1 and "d" not in arg[0]:
-        res = diceRoll.roll(arg[0])
-        output += res[0]
-        total = res[1]
-        has_error = res[2]
+    elif len(arg) == 1:
+        if arg[0] == 'adv':
+            res = diceRoll.rollAdv(True)
+        elif arg[0] == 'dis':
+            res = diceRoll.rollAdv(False)
+        else:
+            res = diceRoll.roll(arg[0])
     # Complex roll!
     else:
-        if len(arg) == 2 and (arg[1] == 'adv' or arg[1] == 'dis'):
-            r1 = complexRoll(arg[:-1])
-            r2 = complexRoll(arg[:-1])
-
-            if r1[1] < r2[1]:
-                if arg[1] == 'adv':
-                    output = "**Result:** " + arg[0] + " (~~" + str(r1[1]) + "~~, " + str(r2[1]) + ")"
-                    total = r2[1]
-                if arg[1] == 'dis':
-                    output = "**Result:** " + arg[0] + " (" + str(r1[1]) + ", ~~" + str(r2[1]) + "~~)"
-                    total = r2[1]
-            elif r1[1] > r2[1]:
-                if arg[1] == 'adv':
-                    output = "**Result:** " + arg[0] + " (" + str(r1[1]) + ", ~~" + str(r2[1]) + "~~)"
-                    total = r1[1]
-                if arg[1] == 'dis':
-                    output = "**Result:** " + arg[0] + " (~~" + str(r1[1]) + "~~, " + str(r2[1]) + ")"
-                    total = r2[1]
-            else:
-                output = "**Result:** " + arg[0] + " (" + str(r1[1]) + ", ~~" + str(r2[1]) + "~~)"
-            has_error = r1[2] or r2[2]
+        if arg[1] == 'adv':
+            res = diceRoll.rollAdv(True, arg[0])
+        elif arg[1] == 'dis':
+            res = diceRoll.rollAdv(False, arg[0])
         else:
-            res = complexRoll(arg)
-            output = res[0]
-            total = res[1]
-            has_error = res[2]
+            res = diceRoll.complexRoll(arg)
+
+    output = res[0]
+    total = res[1]
+    has_error = res[2]
 
     if has_error:
         await ctx.send(username.mention + ' 🎲\n' + output)
@@ -475,7 +457,7 @@ async def gmroll(ctx, *arg):
     totalMsg = "\n**Total:** "
 
     params = arg[len(recipients):]
-    rollInfo = complexRoll(params)
+    rollInfo = diceRoll.complexRoll(params)
 
     output = rollInfo[0]
     total = rollInfo[1]
@@ -497,77 +479,5 @@ async def gmroll(ctx, *arg):
         await channel.send(sender.display_name + " whispered a roll to you. 🎲\n" + output + totalMsg + str(total))
     
     await sender_channel.send("You whispered a roll to the following people: `" + str([r.display_name for r in recipients]) + "`.\n" + output + totalMsg + str(total))
-
-def splitMe(arg):
-    ''' HELPER FUNCTION: To split tuples into roll chunks. '''
-
-    arg = "".join(arg)
-    splitPlus = " + ".join(arg.split('+'))
-    fullSplit = " - ".join(splitPlus.split('-')).split()
-
-    return fullSplit
-
-def complexRoll(arg):
-    ''' HELPER FUNCTION: To parse complex rolls. '''
-
-    arg = splitMe(arg)
-
-    output = "**Result:** "
-    total = 0
-    is_subtract = False
-    has_error = False
-
-    print(arg)
-
-    # Handle each rolling chunk in the params.
-    for i in range(len(arg)):
-        # In the form [quantity]d[dice]
-        if "d" in arg[i]:
-            params = arg[i].split("d")
-            q = params[0]
-            d = params[1]
-
-            if q == '':
-                q = '1'
-
-            res = diceRoll.multiroll(q, d)
-            if res[2]:
-                has_error = True
-            
-            if res[1] != 0:
-                output += res[0]
-
-                if is_subtract:
-                    total -= res[1]
-                else:
-                    total += res[1]
-            else:
-                output = "Oops! Did you cast confusion? We couldn't parse your input!\n" + res[0]
-                return [output, total, has_error]
-        elif arg[i] == "+":
-            output += " + "
-            is_subtract = False
-        elif arg[i] == "-":
-            output += " - "
-            is_subtract = True
-        # It's a modifier.
-        else:
-            try:
-                res = int(arg[i])
-            except ValueError:
-                output = "Oops! Did you cast confusion? We couldn't parse your input!"
-                return [output, total, has_error]
-            
-            if res < 0:
-                output += " - " + str(-res)
-            else:
-                output += arg[i]
-            
-            if is_subtract:
-                    total -= res
-            else:
-                total += res
-        
-    return [output, total, has_error]
 
 bot.run(TOKEN)
