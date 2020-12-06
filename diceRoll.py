@@ -192,8 +192,7 @@ def complexRoll(arg):
                 q = '1'
 
             res = multiroll(q, d)
-            if res[2]:
-                has_error = True
+            has_error = res[2]
             
             if res[1] != 0:
                 output += res[0]
