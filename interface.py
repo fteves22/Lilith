@@ -391,11 +391,10 @@ async def roll(ctx, *arg):
             res = diceRoll.roll(arg[0])
     # Complex roll!
     else:
-        print(arg)
-        if arg[1] == 'adv':
-            res = diceRoll.rollAdv(True, arg[0])
-        elif arg[1] == 'dis':
-            res = diceRoll.rollAdv(False, arg[0])
+        if arg[0] == 'adv':
+            res = diceRoll.rollAdv(True, arg[1])
+        elif arg[0] == 'dis':
+            res = diceRoll.rollAdv(False, arg[1])
         else:
             res = diceRoll.complexRoll(arg)
 
