@@ -78,9 +78,9 @@ async def help(ctx, arg = ''):
     prevMsg = "`previous`: Moves back to the previous player in combat. (Alias: `prev`)"
     showMsg = "`show`: Shows full combat order."
 
-    rollMsg1 = "`roll | roll [dice]`: Without any parameters, this rolls a 1d20. With an integer `dice`, it rolls a 1d`[dice]`."
+    rollMsg1 = "`roll | roll [dice]`: Without any parameters, this rolls a 1d20. With an integer `dice`, it rolls one `dice`-sided dice."
     rollMsg2 = "`roll [quantity] d [dice] + [mod] + ...`: Rolls all specified `[quantity] d [dice]`, and adds any `mod`s."
-    rollMsg3 = "`roll [adv / dis] [mod]`: Rolls two 1d20s and takes the higher or lower result depending on `adv` or `dis`. If any are given, adds any `mod`s."
+    rollMsg3 = "`roll [adv / dis] [mod]`: Rolls two d20s and takes the higher or lower result depending on `adv` or `dis`. If it is given, adds the `mod`."
     whisperMsg = "`whisper [mention] [roll info]`: Sends a DM to the user you @`mention`ed in with the `roll` information."
 
     if arg == '':
@@ -364,6 +364,7 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
+    print(arg)
 
     # Delete command message.
     await ctx.message.delete()
