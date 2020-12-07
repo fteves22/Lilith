@@ -364,7 +364,6 @@ async def on_reaction_add(reaction, user):
 @bot.command()
 async def roll(ctx, *arg):
     ''' Rolls dice. '''
-    print(arg)
 
     # Delete command message.
     await ctx.message.delete()
@@ -372,6 +371,8 @@ async def roll(ctx, *arg):
     arg = diceRoll.splitMe(arg)
     username = ctx.message.author
     normal = True
+    
+    print(arg)
 
     output = ""
     total = 0
