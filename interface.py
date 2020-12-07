@@ -82,12 +82,13 @@ async def help(ctx, arg = ''):
 
     rollMsg1 = "`roll | roll [dice]`: Without any parameters, this rolls a 1d20. With an integer `dice`, it rolls a 1d`[dice]`."
     rollMsg2 = "`roll [quantity] d [dice] + [mod] + ...`: Rolls all specified `[quantity] d [dice]`, and adds any `mod`s."
-    gmrollMsg = "`gmroll [mention] [roll info]`: Sends a DM to the user you @`mention`ed in with the `roll` information."
+    rollMsg3 = "`roll [adv / dis] [mod]`: Rolls two 1d20s and takes the higher or lower result depending on `adv` or `dis`. If any are given, adds any `mod`s."
+    whisperMsg = "`whisper [mention] [roll info]`: Sends a DM to the user you @`mention`ed in with the `roll` information."
 
     if arg == '':
         msg = "**Commands**" + "\n" + helpMsg + "\n" + "\n" + setPrefixMsg + "\n" + cleanMsg
         msg += "\n\n" + joinMsg + "\n" + killMsg + "\n" + beginMsg + "\n" + endMsg + "\n" + nextMsg + "\n" + prevMsg + "\n" + showMsg
-        msg += "\n\n" + rollMsg1 + "\n" + rollMsg2  + "\n" + gmrollMsg
+        msg += "\n\n" + rollMsg1 + "\n" + rollMsg2  + "\n" + rollMsg3 + "\n" + whisperMsg
     elif arg in ['prefix', 'setPrefix']:
         msg = setPrefixMsg
     elif arg in ['initiative', 'join', 'begin', 'show']:
@@ -96,8 +97,8 @@ async def help(ctx, arg = ''):
         msg = killMsg + "\n" + endMsg
     elif arg in ['next', 'prev', 'previous']:
         msg = nextMsg + "\n" + prevMsg
-    elif arg in ['dice', 'roll', 'gmroll']:
-        msg = rollMsg1 + "\n" + rollMsg2 + "\n" + gmrollMsg
+    elif arg in ['dice', 'roll', 'whisper', 'adv', 'dis', 'advantage', 'disadvantage']:
+        msg = rollMsg1 + "\n" + rollMsg2 + "\n" + rollMsg3 + "\n" + whisperMsg
     else:
         msg = "⚠️ `" + arg + "` doesn't exist. Use `!help` for complete list of commands."
         
@@ -459,7 +460,7 @@ async def froll(ctx, *arg):
     await ctx.send(username.mention + ' 🎲\n' + fString + output + totalMsg + str(total))
 
 @bot.command()
-async def gmroll(ctx, *arg):
+async def whisper(ctx, *arg):
     ''' Sends results to the people mentioned, and yourself. '''
 
     # Delete command message.
