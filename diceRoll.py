@@ -105,7 +105,7 @@ def rollAdv(adv, mod = 0):
     if mod > 0:
         output += "+ " + str(mod)
     elif mod < 0:
-        output += "- " + str(mod)
+        output += "- " + str(-mod)
     else:
         pass
 
