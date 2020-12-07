@@ -29,9 +29,7 @@ def _prefix_callable(bot, msg):
     else:
         prefix = p.getPrefix(guild)
     
-    if not guild:
-        return commands.when_mentioned_or(prefix)(bot, msg)
-    return commands.when_mentioned_or(prefix)(bot, msg)
+    return prefix
 
 bot = commands.Bot(command_prefix=_prefix_callable, description=description, help_command = None)
 
@@ -102,7 +100,7 @@ async def help(ctx, arg = ''):
     else:
         msg = "⚠️ `" + arg + "` doesn't exist. Use `!help` for complete list of commands."
         
-    msg = msg + "\n\n" + "Prefix: `" + p + "`"
+    msg = msg + "\n\n" + "Prefix: `" + str(p) + "`"
     await ctx.send(msg)
 
 @bot.command()
