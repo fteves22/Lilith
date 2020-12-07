@@ -368,6 +368,9 @@ async def roll(ctx, *arg):
     # Delete command message.
     await ctx.message.delete()
 
+    if type(arg[0]) == tuple:
+        arg = arg[0]
+
     arg = diceRoll.splitMe(arg)
     username = ctx.message.author
     normal = True
@@ -426,9 +429,8 @@ async def roll(ctx, *arg):
 
 @bot.command()
 async def r(ctx, *arg):
-    arg = diceRoll.splitMe(arg)
     await roll(ctx, arg)
-    
+
 @bot.command()
 async def froll(ctx, *arg):
     ''' Fudges a 1d20 roll. '''
