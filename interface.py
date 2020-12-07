@@ -393,19 +393,19 @@ async def roll(ctx, *arg):
     else:
         if arg[0] == 'adv':
             if arg[1] == '+':
-                mod = arg[2]
+                mod = int(arg[2])
                 res = diceRoll.rollAdv(True, mod)
             elif arg[1] == '-':
-                mod = -arg[2]
+                mod = - int(arg[2])
                 res = diceRoll.rollAdv(True, mod)
             else:
                 res = ["⚠️ To roll with advantage, your input must be of the form: `adv +/- [mod]`.", 0, True]
         elif arg[0] == 'dis':
             if arg[1] == '+':
-                mod = arg[2]
+                mod = int(arg[2])
                 res = diceRoll.rollAdv(False, mod)
             elif arg[1] == '-':
-                mod = -arg[2]
+                mod = - int(arg[2])
                 res = diceRoll.rollAdv(False, mod)
             else:
                 res = ["⚠️ To roll with disadvantage, your input must be of the form: `dis +/- [mod]`.", 0, True]
