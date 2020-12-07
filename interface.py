@@ -391,11 +391,24 @@ async def roll(ctx, *arg):
             res = diceRoll.roll(arg[0])
     # Complex roll!
     else:
-        print(arg)
         if arg[0] == 'adv':
-            res = diceRoll.rollAdv(True, arg[1])
+            if arg[1] == '+':
+                mod = arg[2]
+                res = diceRoll.rollAdv(True, mod)
+            elif arg[1] == '-':
+                mod = -arg[2]
+                res = diceRoll.rollAdv(True, mod)
+            else:
+                res = ["⚠️ To roll with advantage, your input must be of the form: `adv +/- [mod]`.", 0, True]
         elif arg[0] == 'dis':
-            res = diceRoll.rollAdv(False, arg[1])
+            if arg[1] == '+':
+                mod = arg[2]
+                res = diceRoll.rollAdv(False, mod)
+            elif arg[1] == '-':
+                mod = -arg[2]
+                res = diceRoll.rollAdv(False, mod)
+            else:
+                res = ["⚠️ To roll with disadvantage, your input must be of the form: `dis +/- [mod]`.", 0, True]
         else:
             res = diceRoll.complexRoll(arg)
 
