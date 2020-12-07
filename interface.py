@@ -371,7 +371,7 @@ async def roll(ctx, *arg):
     arg = diceRoll.splitMe(arg)
     username = ctx.message.author
     normal = True
-    
+
     print(arg)
 
     output = ""
@@ -388,6 +388,8 @@ async def roll(ctx, *arg):
             res = diceRoll.rollAdv(True)
         elif arg[0] == 'dis':
             res = diceRoll.rollAdv(False)
+        elif "d" in arg[0]:
+            res = diceRoll.complexRoll(arg[0])
         else:
             res = diceRoll.roll(arg[0])
     # Complex roll!
