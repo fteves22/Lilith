@@ -66,7 +66,12 @@ def rollAdv(adv, mod = 0):
     try:
         mod = int(mod)
     except ValueError:
-        return ["⚠️ To roll with advantage, your input must be of the form: `+/- [mod]`.", 0, True]
+        if adv:
+            return ["⚠️ To roll with advantage, your input must be of the form: `adv +/- [mod]`.", 0, True]
+        elif not adv:
+            return ["⚠️ To roll with disadvantage, your input must be of the form: `dis +/- [mod]`.", 0, True]
+        else:
+            return ["Oops! Something went wrong.", 0, True]
     
     r1 = roll()[1]
     r2 = roll()[1]

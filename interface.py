@@ -383,6 +383,7 @@ async def roll(ctx, *arg):
         res = diceRoll.roll()
     # Only dice size given
     elif len(arg) == 1:
+        print(arg)
         if arg[0] == 'adv':
             res = diceRoll.rollAdv(True)
         elif arg[0] == 'dis':
