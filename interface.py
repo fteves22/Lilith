@@ -425,6 +425,11 @@ async def roll(ctx, *arg):
         await ctx.send(username.mention + ' 🎲\n' + output + totalMsg + str(total))
 
 @bot.command()
+async def r(ctx, *arg):
+    arg = diceRoll.splitMe(arg)
+    await roll(ctx, arg)
+    
+@bot.command()
 async def froll(ctx, *arg):
     ''' Fudges a 1d20 roll. '''
 
