@@ -14,16 +14,40 @@ An integer representing the index in `trackerInfo` that holds the current player
 An integer representing the number of combat rounds. This is updated when `currentPlayer` loops around `trackerInfo`, so that `currentPlayer` is once again 0.
 
 ## Functions
-> `join(username, name, initiative)`  
+```python
+join(username, name, initiative)
+```
 
-This function is in charge of adding a character into the initiative order. The Dungeon Master can also add creatures in this way. It cannot be called once combat has begun via begin().  
+This function is in charge of adding a character into the initiative order. The Dungeon Master can also add creatures in this way. It cannot be called once combat has begun via `begin()`.  
 
-### Parameters
+#### Parameters
 - **username** (*Member*) – The *Member* that added the character to initiative.
 - **name** (*str*) – A string that represents the name of the character being added to initiative.
 - **initiative** (*int*) – An integer that represents the initiative roll for the character being added to initiative.  
 
-### Raises
+#### Raises
 - **"That character already exists!"** – A character by the same name already exists in initiative.
 - **"Combat has already begun!** – The `begin()` function has already been called.
 - **"Initiative must be an integer!** – The given initiative parameter is not of type *int*.
+
+```python
+kill(name)
+```
+
+This function deletes the combatant in initiative with `name` if they exist in `trackerInfo`.  
+
+#### Parameters
+- **name** (*str*) – A string that represents the name of the character being deleted from initiative.  
+
+#### Raises
+- **Some Error** – This is some error raised by `kill(name)`.
+
+```python
+begin()
+```
+
+This function marks the start of combat. Once it has been called, characters can no longer join combat.  
+
+#### Raises
+- **"Combat has already begun! Use `end` to clear the initiative tracker."** – There is still combatants in initiative, and `rounds` isn't 0.
+- **"At least two combatants required!"** – There are less than two combatants added to initative.
