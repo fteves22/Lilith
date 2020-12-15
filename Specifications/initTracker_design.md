@@ -79,7 +79,6 @@ printTracker()
 
 #### Raises
 - **"That character already exists!"** – A character by the same name already exists in initiative.
-- **"Combat has already begun!** – The `begin()` function has already been called.
 - **"Initiative must be an integer!** – The given initiative parameter is not of type *int*.
 
 ---
