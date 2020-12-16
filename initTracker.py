@@ -52,20 +52,21 @@ class InitTracker:
         for data in self.trackerInfo:
             if name == data[1]:
                 return "That character already exists!"
+              
+        # Ensure initiative roll can be interpreted as int.
+        try:
+            initiative = int(initiative)
+        except ValueError:
+            return "Initiative must be an integer!"
         
-        if self.rounds != 0:
-            return "Combat has already begun!"        
-        else:
-            # Ensure initiative roll can be interpreted as int.
-            try:
-                initiative = int(initiative)
-            except ValueError:
-                return "Initiative must be an integer!"
+        # Check if currentPlayer gets bumped down.
+        if initiative > self.trackerInfo[self.currentPlayer][2]:
+            self.currentPlayer = self.currentPlayer + 1
 
-            # Add all relevant information to the array.
-            self.trackerInfo.append([username, name, initiative])
+        # Add all relevant information to the array.
+        self.trackerInfo.append([username, name, initiative])
 
-            return name + " successfully joined!"
+        return name + " successfully joined!"
 
     def kill(self, name):
         ''' Deletes combatant with name if they exist in trackerInfo.
@@ -73,8 +74,14 @@ class InitTracker:
             Outputs: string indicating error or success '''
 
         count = 0
+        
         for data in self.trackerInfo:
+            # Find character to remove.
             if name == data[1]:
+                # Check if currentPlayer gets bumped up.
+                if count < self.currentPlayer:
+                    self.currentPlayer = self.currentPlayer - 1
+                    
                 self.trackerInfo.pop(count)
                 return f"{name} has successfully been deleted from the initiative tracker."
             else:
