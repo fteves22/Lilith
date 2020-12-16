@@ -153,7 +153,20 @@ async def join(ctx, *arg):
 
         msg = tracker.join(username, name, initRoll)
         await ctx.send(username.mention + " " + msg)
-        tracker.printTracker()
+        
+        if tracker.rounds != 0:
+            # Show current initiative.
+            if tracker.last_message != None:
+                await tracker.last_message.remove_reaction("⏮️", bot.user)
+                await tracker.last_message.remove_reaction("⏭️", bot.user)
+
+            result = tracker.printTracker()
+            botMessage = await ctx.send(result)
+            tracker.last_message = botMessage
+
+            if tracker.rounds != 0:
+                await botMessage.add_reaction("⏮️")
+                await botMessage.add_reaction("⏭️")
 
 @bot.command()
 async def kill(ctx, *arg):
@@ -179,7 +192,20 @@ async def kill(ctx, *arg):
 
     msg = tracker.kill(name)
     await ctx.send(username.mention + " " + msg)
-    tracker.printTracker()
+    
+    if tracker.rounds != 0:
+        # Show current initiative.
+        if tracker.last_message != None:
+            await tracker.last_message.remove_reaction("⏮️", bot.user)
+            await tracker.last_message.remove_reaction("⏭️", bot.user)
+
+        result = tracker.printTracker()
+        botMessage = await ctx.send(result)
+        tracker.last_message = botMessage
+
+        if tracker.rounds != 0:
+            await botMessage.add_reaction("⏮️")
+            await botMessage.add_reaction("⏭️")
 
 @bot.command()
 async def begin(ctx):
