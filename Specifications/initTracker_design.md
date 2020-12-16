@@ -70,7 +70,7 @@ except:
   throw error
 
 # Check if currentPlayer gets bumped down.
-if initiative > trackerInfo[currentPlayer][2]:
+if rounds != 0 and initiative > trackerInfo[currentPlayer][2]:
   currentPlayer = currentPlayer + 1
 
 trackerInfo.append([username, name, initiative])
@@ -99,7 +99,7 @@ for data in trackerInfo:
   # Find the character to remove.
   if name == data[1]:
     # Check if currentPlayer gets bumped up.
-    if count < currentPlayer:
+    if rounds != 0 and count < currentPlayer:
       currentPlayer = currentPlayer - 1
     trackerInfo.pop(count)      
     printTracker()
