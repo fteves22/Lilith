@@ -60,7 +60,7 @@ class InitTracker:
             return "Initiative must be an integer!"
         
         # Check if currentPlayer gets bumped down.
-        if initiative > self.trackerInfo[self.currentPlayer][2]:
+        if self.rounds != 0 and initiative > self.trackerInfo[self.currentPlayer][2]:
             self.currentPlayer = self.currentPlayer + 1
 
         # Add all relevant information to the array.
@@ -79,7 +79,7 @@ class InitTracker:
             # Find character to remove.
             if name == data[1]:
                 # Check if currentPlayer gets bumped up.
-                if count < self.currentPlayer:
+                if self.rounds != 0 and count < self.currentPlayer:
                     self.currentPlayer = self.currentPlayer - 1
                     
                 self.trackerInfo.pop(count)
