@@ -153,7 +153,7 @@ async def join(ctx, *arg):
 
         msg = tracker.join(username, name, initRoll)
         await ctx.send(username.mention + " " + msg)
-        await show(ctx)
+        tracker.printTracker()
 
 @bot.command()
 async def kill(ctx, *arg):
@@ -179,7 +179,7 @@ async def kill(ctx, *arg):
 
     msg = tracker.kill(name)
     await ctx.send(username.mention + " " + msg)
-    await show(ctx)
+    tracker.printTracker()
 
 @bot.command()
 async def begin(ctx):
