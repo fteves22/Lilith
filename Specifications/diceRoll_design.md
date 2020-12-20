@@ -119,10 +119,15 @@ This function rolls two 20-sided dice, and keeps the higher result if `adv` is T
 
 #### Parameters
 - **adv** (*bool*) – A boolean indicating whether you're rolling at advantage.
-- **mod** (*int*) – An integer representing the modifier to be added to the roll result.  
+- **mod** (*int*, Optional) – An integer representing the modifier to be added to the roll result.  
 
 #### Returns
-
+```python
+[outcome, total, error]
+```  
+- **outcome** (*str*) – A string representing the roll output or the error message.
+- **total** (*int*) – An integer representing the total roll result.
+- **error** (*bool*) – A boolean indicating whether an error was raised. 
 
 #### Logic
 ```python
@@ -176,3 +181,27 @@ return [output, total, False]
 - **"⚠️ To roll with advantage, your input must be of the form: `adv +/- [mod]`."** – `adv` is True and `mod` cannot be cast as an integer.
 - **"⚠️ To roll with disadvantage, your input must be of the form: `dis +/- [mod]`."** – `adv` is False and `mod` cannot be cast as an integer.
 - **"Oops! Something went wrong."** – `adv` is not a bool.
+
+---
+
+```python
+fudgeMod(mod, fudge)
+```  
+
+This function fudges a 1d20 + `mod` roll.  
+
+#### Parameters
+- **mod** (*int*) – An integer representing the modifier to be added to the roll result.
+- **fudge** (*int*) – An integer representing the predetermined total roll result, with the modifier added.  
+
+#### Returns
+```python
+[outcome, fudge, error]
+```  
+- **outcome** (*str*) – A string representing the roll output or the error message.
+- **fudge** (*int*) – An integer representing the predetermined total roll result, with the modifier added.
+- **error** (*bool*) – A boolean indicating whether an error was raised.  
+
+#### Logic
+```python
+
