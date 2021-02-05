@@ -104,6 +104,10 @@ async def help(ctx, arg = ''):
     await ctx.send(msg)
 
 @bot.command()
+async def h(ctx, arg = ''):
+    await h(ctx)
+
+@bot.command()
 async def clean(ctx):    
     def is_bot(m):
         return m.author == bot.user
