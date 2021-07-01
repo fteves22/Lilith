@@ -105,7 +105,7 @@ async def help(ctx, arg = ''):
 
 @bot.command()
 async def h(ctx, arg = ''):
-    await h(ctx)
+    await help(ctx)
 
 @bot.command()
 async def clean(ctx):    
